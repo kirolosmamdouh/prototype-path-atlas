@@ -28,7 +28,7 @@ function AppLayout() {
 
   const items = navItems(user.role, store, user.id);
   const current = pathname.replace(/\/$/, "") as AppPath;
-  const blocked = current in ({} as Record<string, unknown>) ? false : isKnown(current) && !canAccess(user.role, current);
+  const blocked = isKnown(current) && !canAccess(user.role, current);
 
   return (
     <div className="flex min-h-screen bg-muted">

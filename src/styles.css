@@ -153,3 +153,5 @@
 }
 @utility shadow-brand { box-shadow: var(--shadow-brand); }
 @utility shadow-pink { box-shadow: var(--shadow-pink); }
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
