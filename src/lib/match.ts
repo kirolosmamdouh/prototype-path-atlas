@@ -33,3 +33,49 @@ export function scoreCreator(c: Campaign, creator: User, store: Store): MatchRes
 export function matchCreators(c: Campaign, store: Store): MatchResult[] {
   return store.users.filter((u) => u.role === "creator").map((u) => scoreCreator(c, u, store)).sort((a, b) => b.score - a.score);
 }
+
+/** Creator-side narrowing. Defaults are exactly EMPTY_FILTERS, so isFiltered() stays honest. */
+export interface MatchFilters {
+  q: string;
+  minScore: number;
+  platform: string;
+  niche: string;
+  maxRate: number | null;
+}
+
+export const EMPTY_FILTERS: MatchFilters = { q: "", minScore: 0, platform: "All", niche: "All", maxRate: null };
+
+export const PLATFORM_OPTIONS = ["All", "TikTok", "Instagram", "YouTube"] as const;
+type Platform = NonNullable<User["platforms"]>[number];
+
+/** True when anything narrows the list, so the UI can offer a way back out. */
+export function isFiltered(f: MatchFilters): boolean {
+  return f.q.trim() !== "" || f.minScore > 0 || f.platform !== EMPTY_FILTERS.platform || f.niche !== EMPTY_FILTERS.niche || f.maxRate !== null;
+}
+
+/** Keep the ranked creators that pass every active filter. Creator with no rate is never read as over budget. */
+export function filterMatches(results: MatchResult[], f: MatchFilters): MatchResult[] {
+  const q = f.q.trim().toLowerCase();
+  return results.filter(({ creator, score }) => {
+    if (q && !creator.name.toLowerCase().includes(q)) return false;
+    if (score < f.minScore) return false;
+    if (f.platform !== "All" && !(creator.platforms ?? []).includes(f.platform as Platform)) return false;
+    if (f.niche !== "All" && creator.niche !== f.niche) return false;
+    if (f.maxRate != null && creator.rate != null && creator.rate > f.maxRate) return false;
+    return true;
+  });
+}
+
+/** Niches that actually have a creator, so the filter never offers an empty choice. */
+export function creatorNiches(users: User[]): string[] {
+  const niches = new Set<string>();
+  for (const u of users) if (u.role === "creator" && u.niche) niches.add(u.niche);
+  return [...niches].sort();
+}
+
+/** Rate slider ceiling: the pricier of campaign budget and dearest creator, rounded up. */
+export function rateCeiling(results: MatchResult[], budget: number): number {
+  let max = budget;
+  for (const r of results) if (r.creator.rate != null && r.creator.rate > max) max = r.creator.rate;
+  return Math.max(500, Math.ceil(max / 500) * 500);
+}
