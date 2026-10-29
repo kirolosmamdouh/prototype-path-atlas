@@ -133,6 +133,7 @@
   --color-pink-foreground: var(--pink-foreground);
   --color-success: var(--success);
   --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: "Cairo", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -155,3 +156,20 @@
 @utility shadow-pink { box-shadow: var(--shadow-pink); }
 
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+[lang="ar"] {
+  font-family: var(--font-arabic);
+  letter-spacing: 0;
+}
+[lang="ar"] h1, [lang="ar"] h2, [lang="ar"] h3 { line-height: 1.5; }
+[lang="ar"] .tracking-wider, [lang="ar"] .tracking-widest { letter-spacing: 0; }
+[dir="rtl"] .reel-track { direction: ltr; }
+@media (max-width: 480px) {
+  .landing-nav { padding-inline: 12px; gap: 8px; }
+  .landing-nav .auth-link { padding-inline: 8px; }
+  .landing-nav .signup-link { padding-inline: 12px; }
+  .landing-nav .logo-wordmark { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reel-track { animation: none; }
+}
