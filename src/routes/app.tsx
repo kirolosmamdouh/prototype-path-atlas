@@ -4,6 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/uc/Logo";
+import { TopBar } from "@/components/uc/TopBar";
 import { Avatar } from "@/components/uc/ui";
 import { canAccess, navItems, type AppPath } from "@/lib/nav";
 import { useApp } from "@/lib/store";
@@ -74,6 +75,9 @@ function AppLayout() {
           <Button variant="ghost" onClick={() => setMenuOpen(true)} className="me-3 text-xl" aria-label={t("Open menu")}>☰</Button>
           <Logo /><div className="ms-auto"><LanguageToggle /></div>
         </header>
+        <div className="sticky top-14 z-20 border-b bg-background px-4 py-2 lg:top-0 lg:px-10 lg:py-3">
+          <div className="mx-auto flex max-w-6xl justify-end"><TopBar /></div>
+        </div>
         <main className="mx-auto max-w-6xl p-6 lg:p-10">
           {blocked ? (
             <div className="rounded-2xl border bg-card p-10 text-center">

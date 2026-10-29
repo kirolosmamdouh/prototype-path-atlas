@@ -74,3 +74,18 @@ describe("match filters", () => {
     expect(rateCeiling([], 1200)).toBe(1500);
   });
 });
+
+import { pastCollaborators, personalizedCreators } from "@/lib/match";
+import { SEED as SEED2 } from "@/lib/seed";
+describe("brand overview", () => {
+  it("lists past collaborators only from accepted proposals on the brand's campaigns", () => {
+    expect(pastCollaborators(1, SEED2).map((c) => c.creator.name)).toEqual(["Nour Adel"]);
+    expect(pastCollaborators(4, SEED2).map((c) => c.creator.name)).toEqual(["Salma Hassan"]);
+  });
+  it("personalized creators are ranked by best score and only creators", () => {
+    const r = personalizedCreators(1, SEED2);
+    expect(r[0]!.creator.name).toBe("Salma Hassan");
+    expect(r.every((x) => x.creator.role === "creator")).toBe(true);
+    for (let i = 1; i < r.length; i++) expect(r[i - 1]!.score).toBeGreaterThanOrEqual(r[i]!.score);
+  });
+});

@@ -2,6 +2,7 @@ import { useLocalizedFormat } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CampaignCard } from "@/components/uc/CampaignCard";
+import { BrandOverview } from "@/components/uc/BrandOverview";
 import { Avatar, EmptyState, PageHeader, StatCard, StatusBadge, btnPrimary } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 import type { Store, User } from "@/lib/types";
@@ -29,7 +30,7 @@ function BrandDashboard({ user, store }: { user: User; store: Store }) {
 
   return (
     <>
-      <PageHeader title={`${language === "ar" ? "أهلًا،" : "Hi,"} ${user.name} 👋`} subtitle={t("Here's what's happening with your campaigns.")}
+      <PageHeader title={`${t("Welcome back,")} ${user.name}`} subtitle={t("Here's what's happening with your campaigns.")}
         action={<Link to="/app/campaigns/new" className={btnPrimary}>{t("\uff0b Post a campaign")}</Link>} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard accent label={t("Active campaigns")} value={mine.filter((c) => c.status !== "closed").length} />
@@ -37,30 +38,7 @@ function BrandDashboard({ user, store }: { user: User; store: Store }) {
         <StatCard label={t("Awaiting review")} value={pending.length} />
         <StatCard label={t("Committed spend")} value={`${currency} ${fmt(spend)}`} />
       </div>
-      <h2 className="mb-4 mt-10 text-lg font-bold">{t("New proposals")}</h2>
-      {pending.length === 0 ? (
-        <EmptyState icon="📭" title={t("No proposals waiting")} body={t("New proposals from creators will show up here.")} />
-      ) : (
-        <div className="divide-y rounded-2xl border bg-card">
-          {pending.map((a) => {
-            const c = store.users.find((u) => u.id === a.creatorId);
-            const camp = mine.find((x) => x.id === a.campaignId);
-            return (
-              <div key={a.id} className="flex items-center gap-4 p-4">
-                <Avatar name={c?.name ?? "?"} />
-                <div className="min-w-0 flex-1">
-                  <p className="font-bold">{c?.name} <span className="font-normal text-muted-foreground">→ {camp?.title}</span></p>
-                  <p className="truncate text-sm text-muted-foreground">{a.pitch}</p>
-                </div>
-                <p className="text-sm font-bold">{currency} {fmt(a.rate)}</p>
-                <span className="text-xs text-muted-foreground">{ago(a.createdAt)}</span>
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <h2 className="mb-4 mt-10 text-lg font-bold">{t("Your campaigns")}</h2>
-      <div className="grid gap-4 md:grid-cols-2">{mine.map((c) => <CampaignCard key={c.id} campaign={c} store={store} />)}</div>
+      <div className="mt-10"><BrandOverview user={user} store={store} /></div>
     </>
   );
 }
