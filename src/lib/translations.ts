@@ -184,5 +184,14 @@ export const arabic: Record<string, string> = {
   "Profile matches the brief": "الملف يطابق الوصف",
   "Already applied": "قدّم بالفعل",
   "Message": "مراسلة",
+  "Search creators by name…": "ابحث عن صنّاع المحتوى بالاسم…",
+  "Clear filters": "مسح عوامل التصفية",
+  "Match score": "درجة التطابق",
+  "Any": "الكل",
+  "Any budget": "أي ميزانية",
+  "Within campaign budget": "ضمن ميزانية الحملة",
+  "Maximum creator rate": "أقصى سعر لصانع المحتوى",
+  "No creators match these filters": "لا يوجد صنّاع محتوى مطابقون لعوامل التصفية",
+  "Try widening your filters or clearing the search.": "جرّب توسيع عوامل التصفية أو مسح البحث.",
   "Try again": "حاول مجددًا"
 };
