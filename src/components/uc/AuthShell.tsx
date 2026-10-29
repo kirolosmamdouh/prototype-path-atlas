@@ -12,7 +12,7 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
         <div className="absolute -end-24 top-1/3 h-96 w-96 rounded-full bg-brand-gradient opacity-30 blur-3xl" />
         <div className="relative">
           <h2 className="text-5xl font-black leading-tight text-sidebar-accent-foreground">
-            Where Egypt's brands meet <span className="text-accent">{t("creators.")}</span>
+            {t("Where Egypt's brands meet")} <span className="text-accent">{t("creators.")}</span>
           </h2>
           <p className="mt-4 max-w-md text-sidebar-foreground">{t("500+ vetted creators. Proposals in under 24 hours.")}</p>
         </div>

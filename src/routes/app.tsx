@@ -36,7 +36,7 @@ function AppLayout() {
   return (
     <div className="flex min-h-screen bg-muted">
       <aside className={cn(
-        "fixed inset-y-0 start-0 z-40 flex w-64 flex-col bg-sidebar p-4 transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0",
+        "fixed inset-y-0 start-0 z-40 flex w-64 flex-col bg-sidebar p-4 transition-transform lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 lg:rtl:translate-x-0",
         menuOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full",
       )}>
         <div className="px-2 py-3"><Logo inverted /></div>

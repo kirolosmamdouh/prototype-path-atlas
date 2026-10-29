@@ -52,7 +52,7 @@ function Login() {
         </div>
       </div>
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        New here? <Link to="/register" className="font-bold text-primary">{t("Create an account")}</Link>
+        {t("New here?")} <Link to="/register" className="font-bold text-primary">{t("Create an account")}</Link>
       </p>
     </AuthShell>
   );

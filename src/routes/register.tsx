@@ -64,7 +64,7 @@ function Register() {
         <button className={`${btnPrimary} w-full`}>{language === "ar" ? `إنشاء حساب ${t(role)}` : `Create ${role} account`}</button>
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Already have an account? <Link to="/login" className="font-bold text-primary">{t("Log in")}</Link>
+        {t("Already have an account?")} <Link to="/login" className="font-bold text-primary">{t("Log in")}</Link>
       </p>
     </AuthShell>
   );

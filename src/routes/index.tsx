@@ -54,7 +54,7 @@ function Landing() {
           <LanguageToggle />
           <Link to="/login" className="auth-link px-4 py-2 text-sm font-semibold">{t("Log in")}</Link>
           <Link to="/register" className="signup-link rounded-full bg-pink px-6 py-2.5 text-sm font-extrabold text-pink-foreground shadow-pink transition hover:-translate-y-px hover:opacity-90">
-            Sign up
+            {t("Sign up")}
           </Link>
         </div>
       </nav>
@@ -63,20 +63,20 @@ function Landing() {
         <div className="pointer-events-none absolute left-[8%] top-28 h-40 w-40 rounded-full border-4 border-chart-5 opacity-40" />
         <div className="pointer-events-none absolute right-[10%] top-56 h-24 w-24 rounded-full bg-pink opacity-15" />
         <span className="inline-block rounded-full bg-secondary px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-secondary-foreground">
-          Egypt's #1 UGC marketplace
+          {t("Egypt's #1 UGC marketplace")}
         </span>
         <h1 className="mx-auto mt-6 max-w-4xl text-[clamp(44px,6vw,80px)] font-black leading-[1.02] tracking-tight">
-          Real creators. <span className="text-brand-gradient">{t("Real results.")}</span>
+          {t("Real creators.")} <span className="text-brand-gradient">{t("Real results.")}</span>
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-          Brands post a brief, AI finds the perfect creators, and proposals land in your inbox within 24 hours.
+          {t("Brands post a brief, AI finds the perfect creators, and proposals land in your inbox within 24 hours.")}
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3">
           <Link to="/register" search={{ role: "brand" }} className="rounded-full bg-foreground px-7 py-3.5 text-sm font-extrabold text-background transition hover:opacity-90">
-            I'm a brand →
+            {t("I'm a brand \u2192")}
           </Link>
           <Link to="/register" search={{ role: "creator" }} className="rounded-full bg-accent px-7 py-3.5 text-sm font-extrabold text-accent-foreground transition hover:opacity-90">
-            I'm a creator →
+            {t("I'm a creator \u2192")}
           </Link>
         </div>
       </section>
@@ -124,7 +124,7 @@ function Landing() {
       <section className="mx-6 mb-10 rounded-[32px] bg-sidebar px-8 py-16 text-center md:mx-auto md:max-w-6xl">
         <h2 className="text-4xl font-black text-sidebar-accent-foreground">{t("Ready to")} <span className="text-accent">{t("create?")}</span></h2>
         <Link to="/register" className="mt-8 inline-block rounded-full bg-pink px-8 py-3.5 font-extrabold text-pink-foreground shadow-pink">
-          Get started free
+          {t("Get started free")}
         </Link>
       </section>
       <footer className="pb-10 text-center text-xs text-muted-foreground">{t("\u00a9 2026 UpCreator \u00b7 Cairo, Egypt")}</footer>
