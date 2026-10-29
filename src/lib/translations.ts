@@ -174,7 +174,6 @@ export const arabic: Record<string, string> = {
   "Something went wrong on our end. You can try refreshing or head back home.": "حدث خطأ. يمكنك إعادة المحاولة أو العودة للرئيسية.",
   "AI Creator Match": "مطابقة صنّاع المحتوى",
   "Pick a campaign and see the creators who fit it best.": "اختر حملة وشاهد أنسب صنّاع المحتوى لها.",
-  "Campaign": "الحملة",
   "Post a campaign first": "انشر حملة أولًا",
   "Matches appear once you have an open campaign.": "تظهر المطابقات عند وجود حملة مفتوحة.",
   "No creators yet": "لا يوجد صنّاع محتوى بعد",
