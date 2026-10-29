@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## UpCreator structure
+- Signed-in screens live under `src/routes/app.*` with `app.tsx` as the guarded sidebar layout; role rules are centralised in `src/lib/nav.ts` (ROUTE_ACCESS) so the sidebar and guards never disagree.
+- App data is a typed in-browser store (`src/lib/store.tsx`, persisted to localStorage, seeded from `src/lib/seed.ts`) until a real backend is added — swap the store, not the screens.

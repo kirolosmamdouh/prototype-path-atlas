@@ -10,33 +10,255 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppRouteImport } from './routes/app'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppAiMatchRouteImport } from './routes/app.ai-match'
+import { Route as AppApplicationsRouteImport } from './routes/app.applications'
+import { Route as AppBillingRouteImport } from './routes/app.billing'
+import { Route as AppEarningsRouteImport } from './routes/app.earnings'
+import { Route as AppManageRouteImport } from './routes/app.manage'
+import { Route as AppMessagesRouteImport } from './routes/app.messages'
+import { Route as AppNotificationsRouteImport } from './routes/app.notifications'
+import { Route as AppProfileRouteImport } from './routes/app.profile'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
+import { Route as AppTalentRouteImport } from './routes/app.talent'
+import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
+import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
+import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAiMatchRoute = AppAiMatchRouteImport.update({
+  id: '/ai-match',
+  path: '/ai-match',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppApplicationsRoute = AppApplicationsRouteImport.update({
+  id: '/applications',
+  path: '/applications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppBillingRoute = AppBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppEarningsRoute = AppEarningsRouteImport.update({
+  id: '/earnings',
+  path: '/earnings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppManageRoute = AppManageRouteImport.update({
+  id: '/manage',
+  path: '/manage',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppMessagesRoute = AppMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppNotificationsRoute = AppNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppProfileRoute = AppProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTalentRoute = AppTalentRouteImport.update({
+  id: '/talent',
+  path: '/talent',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai-match': typeof AppAiMatchRoute
+  '/app/applications': typeof AppApplicationsRoute
+  '/app/billing': typeof AppBillingRoute
+  '/app/earnings': typeof AppEarningsRoute
+  '/app/manage': typeof AppManageRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/talent': typeof AppTalentRoute
+  '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai-match': typeof AppAiMatchRoute
+  '/app/applications': typeof AppApplicationsRoute
+  '/app/billing': typeof AppBillingRoute
+  '/app/earnings': typeof AppEarningsRoute
+  '/app/manage': typeof AppManageRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/talent': typeof AppTalentRoute
+  '/app': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/app': typeof AppRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/app/ai-match': typeof AppAiMatchRoute
+  '/app/applications': typeof AppApplicationsRoute
+  '/app/billing': typeof AppBillingRoute
+  '/app/earnings': typeof AppEarningsRoute
+  '/app/manage': typeof AppManageRoute
+  '/app/messages': typeof AppMessagesRoute
+  '/app/notifications': typeof AppNotificationsRoute
+  '/app/profile': typeof AppProfileRoute
+  '/app/settings': typeof AppSettingsRoute
+  '/app/talent': typeof AppTalentRoute
+  '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai-match'
+    | '/app/applications'
+    | '/app/billing'
+    | '/app/earnings'
+    | '/app/manage'
+    | '/app/messages'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/settings'
+    | '/app/talent'
+    | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai-match'
+    | '/app/applications'
+    | '/app/billing'
+    | '/app/earnings'
+    | '/app/manage'
+    | '/app/messages'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/settings'
+    | '/app/talent'
+    | '/app'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/ai-match'
+    | '/app/applications'
+    | '/app/billing'
+    | '/app/earnings'
+    | '/app/manage'
+    | '/app/messages'
+    | '/app/notifications'
+    | '/app/profile'
+    | '/app/settings'
+    | '/app/talent'
+    | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppRoute: typeof AppRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +270,177 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/ai-match': {
+      id: '/app/ai-match'
+      path: '/ai-match'
+      fullPath: '/app/ai-match'
+      preLoaderRoute: typeof AppAiMatchRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/applications': {
+      id: '/app/applications'
+      path: '/applications'
+      fullPath: '/app/applications'
+      preLoaderRoute: typeof AppApplicationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/billing': {
+      id: '/app/billing'
+      path: '/billing'
+      fullPath: '/app/billing'
+      preLoaderRoute: typeof AppBillingRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/earnings': {
+      id: '/app/earnings'
+      path: '/earnings'
+      fullPath: '/app/earnings'
+      preLoaderRoute: typeof AppEarningsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/manage': {
+      id: '/app/manage'
+      path: '/manage'
+      fullPath: '/app/manage'
+      preLoaderRoute: typeof AppManageRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/messages': {
+      id: '/app/messages'
+      path: '/messages'
+      fullPath: '/app/messages'
+      preLoaderRoute: typeof AppMessagesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/notifications': {
+      id: '/app/notifications'
+      path: '/notifications'
+      fullPath: '/app/notifications'
+      preLoaderRoute: typeof AppNotificationsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/profile': {
+      id: '/app/profile'
+      path: '/profile'
+      fullPath: '/app/profile'
+      preLoaderRoute: typeof AppProfileRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/talent': {
+      id: '/app/talent'
+      path: '/talent'
+      fullPath: '/app/talent'
+      preLoaderRoute: typeof AppTalentRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/': {
+      id: '/app/campaigns/'
+      path: '/campaigns'
+      fullPath: '/app/campaigns/'
+      preLoaderRoute: typeof AppCampaignsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/$id': {
+      id: '/app/campaigns/$id'
+      path: '/campaigns/$id'
+      fullPath: '/app/campaigns/$id'
+      preLoaderRoute: typeof AppCampaignsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/new': {
+      id: '/app/campaigns/new'
+      path: '/campaigns/new'
+      fullPath: '/app/campaigns/new'
+      preLoaderRoute: typeof AppCampaignsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppAiMatchRoute: typeof AppAiMatchRoute
+  AppApplicationsRoute: typeof AppApplicationsRoute
+  AppBillingRoute: typeof AppBillingRoute
+  AppEarningsRoute: typeof AppEarningsRoute
+  AppManageRoute: typeof AppManageRoute
+  AppMessagesRoute: typeof AppMessagesRoute
+  AppNotificationsRoute: typeof AppNotificationsRoute
+  AppProfileRoute: typeof AppProfileRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppTalentRoute: typeof AppTalentRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
+  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppAiMatchRoute: AppAiMatchRoute,
+  AppApplicationsRoute: AppApplicationsRoute,
+  AppBillingRoute: AppBillingRoute,
+  AppEarningsRoute: AppEarningsRoute,
+  AppManageRoute: AppManageRoute,
+  AppMessagesRoute: AppMessagesRoute,
+  AppNotificationsRoute: AppNotificationsRoute,
+  AppProfileRoute: AppProfileRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppTalentRoute: AppTalentRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppCampaignsIdRoute: AppCampaignsIdRoute,
+  AppCampaignsNewRoute: AppCampaignsNewRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppRoute: AppRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
