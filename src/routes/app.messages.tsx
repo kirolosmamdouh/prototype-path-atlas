@@ -1,16 +1,20 @@
+import { useLocalizedFormat } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Avatar, EmptyState, PageHeader } from "@/components/uc/ui";
-import { ago, useApp } from "@/lib/store";
+import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/app/messages")({ component: Messages });
 
 function Messages() {
+  const { t, language } = useI18n();
+  const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
   const { user, store } = useApp();
   const msgs = store.messages.filter((m) => m.receiverId === user?.id || m.senderId === user?.id);
   return (
     <>
-      <PageHeader title="Messages" subtitle="Full chat threads arrive in the next phase." />
-      {msgs.length === 0 ? <EmptyState icon="💬" title="No messages yet" /> : (
+      <PageHeader title={t("Messages")} subtitle={t("Full chat threads arrive in the next phase.")} />
+      {msgs.length === 0 ? <EmptyState icon="💬" title={t("No messages yet")} /> : (
         <div className="divide-y rounded-2xl border bg-card">
           {msgs.map((m) => {
             const otherId = m.senderId === user?.id ? m.receiverId : m.senderId;

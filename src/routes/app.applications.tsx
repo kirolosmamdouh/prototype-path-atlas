@@ -1,17 +1,21 @@
+import { useLocalizedFormat } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyState, PageHeader, StatusBadge, btnPrimary } from "@/components/uc/ui";
-import { ago, fmt, useApp } from "@/lib/store";
+import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/app/applications")({ component: MyApplications });
 
 function MyApplications() {
+  const { t, language } = useI18n();
+  const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
   const { user, store } = useApp();
   const apps = store.applications.filter((a) => a.creatorId === user?.id);
   return (
     <>
-      <PageHeader title="My applications" subtitle="Track every proposal you've sent." />
+      <PageHeader title={t("My applications")} subtitle={t("Track every proposal you've sent.")} />
       {apps.length === 0 ? (
-        <EmptyState icon="📄" title="No proposals yet" action={<Link to="/app/campaigns" className={btnPrimary}>Browse campaigns</Link>} />
+        <EmptyState icon="📄" title={t("No proposals yet")} action={<Link to="/app/campaigns" className={btnPrimary}>{t("Browse campaigns")}</Link>} />
       ) : (
         <div className="space-y-3">
           {apps.map((a) => {
@@ -22,7 +26,7 @@ function MyApplications() {
                   <p className="font-bold">{c?.title}</p>
                   <p className="truncate text-sm text-muted-foreground">{a.pitch}</p>
                 </div>
-                <p className="text-sm font-bold">EGP {fmt(a.rate)}</p>
+                <p className="text-sm font-bold">{currency} {fmt(a.rate)}</p>
                 <StatusBadge status={a.status} />
                 <span className="text-xs text-muted-foreground">{ago(a.createdAt)}</span>
               </Link>

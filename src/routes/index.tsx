@@ -1,3 +1,5 @@
+import { LanguageToggle } from "@/components/uc/LanguageToggle";
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Logo } from "@/components/uc/Logo";
@@ -37,19 +39,21 @@ const stats = [
 const reels = ["Fashion · 45.2k", "Beauty · 19.4k", "Food · 12.8k", "Travel · 55.6k", "Fitness · 22.3k", "Tech · 9.1k", "Dance · 88.2k", "Vlog · 21.8k"];
 
 function Landing() {
+  const { t, language } = useI18n();
   const [open, setOpen] = useState<number | null>(0);
   return (
     <div className="min-h-screen overflow-x-hidden bg-background">
-      <nav className="fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b bg-background/95 px-[clamp(20px,5vw,60px)] backdrop-blur">
+      <nav className="landing-nav fixed inset-x-0 top-0 z-50 flex h-16 items-center justify-between border-b bg-background/95 px-[clamp(20px,5vw,60px)] backdrop-blur">
         <Logo />
         <div className="hidden items-center gap-8 text-sm font-semibold text-muted-foreground md:flex">
-          <a href="#features" className="hover:text-foreground">For Brands</a>
-          <a href="#features" className="hover:text-foreground">For Creators</a>
-          <a href="#faq" className="hover:text-foreground">FAQ</a>
+          <a href="#features" className="hover:text-foreground">{t("For Brands")}</a>
+          <a href="#features" className="hover:text-foreground">{t("For Creators")}</a>
+          <a href="#faq" className="hover:text-foreground">{t("FAQ")}</a>
         </div>
         <div className="flex items-center gap-2">
-          <Link to="/login" className="px-4 py-2 text-sm font-semibold">Log in</Link>
-          <Link to="/register" className="rounded-full bg-pink px-6 py-2.5 text-sm font-extrabold text-pink-foreground shadow-pink transition hover:-translate-y-px hover:opacity-90">
+          <LanguageToggle />
+          <Link to="/login" className="auth-link px-4 py-2 text-sm font-semibold">{t("Log in")}</Link>
+          <Link to="/register" className="signup-link rounded-full bg-pink px-6 py-2.5 text-sm font-extrabold text-pink-foreground shadow-pink transition hover:-translate-y-px hover:opacity-90">
             Sign up
           </Link>
         </div>
@@ -62,7 +66,7 @@ function Landing() {
           Egypt's #1 UGC marketplace
         </span>
         <h1 className="mx-auto mt-6 max-w-4xl text-[clamp(44px,6vw,80px)] font-black leading-[1.02] tracking-tight">
-          Real creators. <span className="text-brand-gradient">Real results.</span>
+          Real creators. <span className="text-brand-gradient">{t("Real results.")}</span>
         </h1>
         <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
           Brands post a brief, AI finds the perfect creators, and proposals land in your inbox within 24 hours.
@@ -78,7 +82,7 @@ function Landing() {
       </section>
 
       <div className="overflow-hidden py-4">
-        <div className="flex w-max animate-[marquee_28s_linear_infinite] gap-4">
+        <div className="reel-track flex w-max animate-[marquee_28s_linear_infinite] gap-4">
           {[...reels, ...reels].map((r, i) => (
             <div key={i} className="flex h-64 w-40 shrink-0 items-end rounded-3xl bg-brand-gradient p-3" style={{ opacity: 0.75 + (i % 3) * 0.1 }}>
               <span className="rounded-full bg-background/90 px-2.5 py-1 text-xs font-bold">▶ {r}</span>
@@ -89,41 +93,41 @@ function Landing() {
 
       <section className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-6 py-16 md:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="text-center">
+          <div key={t(s.label)} className="text-center">
             <p className="text-4xl font-black">{s.value}</p>
-            <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t(s.label)}</p>
           </div>
         ))}
       </section>
 
       <section id="features" className="mx-auto grid max-w-6xl gap-5 px-6 py-12 md:grid-cols-3">
         {features.map((f) => (
-          <div key={f.label} className="rounded-3xl border bg-card p-8">
+          <div key={t(f.label)} className="rounded-3xl border bg-card p-8">
             <div className="text-3xl">{f.icon}</div>
-            <p className="mt-4 text-xs font-bold uppercase tracking-widest text-primary">{f.label}</p>
-            <h3 className="mt-2 text-2xl font-extrabold">{f.head}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{f.sub}</p>
+            <p className="mt-4 text-xs font-bold uppercase tracking-widest text-primary">{t(f.label)}</p>
+            <h3 className="mt-2 text-2xl font-extrabold">{t(f.head)}</h3>
+            <p className="mt-2 text-sm text-muted-foreground">{t(f.sub)}</p>
           </div>
         ))}
       </section>
 
       <section id="faq" className="mx-auto max-w-3xl px-6 py-16">
-        <h2 className="mb-8 text-center text-4xl font-black">Questions, answered.</h2>
+        <h2 className="mb-8 text-center text-4xl font-black">{t("Questions, answered.")}</h2>
         {faqs.map((f, i) => (
-          <button key={f.q} onClick={() => setOpen(open === i ? null : i)} className="block w-full border-b py-5 text-left">
-            <div className="flex justify-between text-lg font-bold">{f.q}<span>{open === i ? "−" : "+"}</span></div>
-            {open === i && <p className="mt-2 text-muted-foreground">{f.a}</p>}
+          <button key={t(f.q)} onClick={() => setOpen(open === i ? null : i)} className="block w-full border-b py-5 text-start">
+            <div className="flex justify-between text-lg font-bold">{t(f.q)}<span>{open === i ? "−" : "+"}</span></div>
+            {open === i && <p className="mt-2 text-muted-foreground">{t(f.a)}</p>}
           </button>
         ))}
       </section>
 
       <section className="mx-6 mb-10 rounded-[32px] bg-sidebar px-8 py-16 text-center md:mx-auto md:max-w-6xl">
-        <h2 className="text-4xl font-black text-sidebar-accent-foreground">Ready to <span className="text-accent">create?</span></h2>
+        <h2 className="text-4xl font-black text-sidebar-accent-foreground">{t("Ready to")} <span className="text-accent">{t("create?")}</span></h2>
         <Link to="/register" className="mt-8 inline-block rounded-full bg-pink px-8 py-3.5 font-extrabold text-pink-foreground shadow-pink">
           Get started free
         </Link>
       </section>
-      <footer className="pb-10 text-center text-xs text-muted-foreground">© 2026 UpCreator · Cairo, Egypt</footer>
+      <footer className="pb-10 text-center text-xs text-muted-foreground">{t("\u00a9 2026 UpCreator \u00b7 Cairo, Egypt")}</footer>
     </div>
   );
 }
