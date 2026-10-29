@@ -172,5 +172,17 @@ export const arabic: Record<string, string> = {
   "Go home": "العودة للرئيسية",
   "This page didn't load": "تعذّر تحميل الصفحة",
   "Something went wrong on our end. You can try refreshing or head back home.": "حدث خطأ. يمكنك إعادة المحاولة أو العودة للرئيسية.",
+  "Pick a campaign and see the creators who fit it best.": "اختر حملة وشاهد أنسب صنّاع المحتوى لها.",
+  "Post a campaign first": "انشر حملة أولًا",
+  "Matches appear once you have an open campaign.": "تظهر المطابقات عند وجود حملة مفتوحة.",
+  "No creators yet": "لا يوجد صنّاع محتوى بعد",
+  "match": "تطابق",
+  "Same niche": "نفس المجال",
+  "Posts on the right platform": "ينشر على المنصة المطلوبة",
+  "Rate fits your budget": "السعر ضمن الميزانية",
+  "Rate above budget": "السعر أعلى من الميزانية",
+  "Profile matches the brief": "الملف يطابق الوصف",
+  "Already applied": "قدّم بالفعل",
+  "Message": "مراسلة",
   "Try again": "حاول مجددًا"
 };
