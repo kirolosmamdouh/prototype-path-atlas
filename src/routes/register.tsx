@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { AuthShell } from "@/components/uc/AuthShell";
@@ -11,6 +13,8 @@ export const Route = createFileRoute("/register")({
     s["role"] === "brand" || s["role"] === "creator" ? { role: s["role"] } : {},
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Sign up — UpCreator" },
       { name: "description", content: "Join UpCreator as a brand or a creator — free to start." },
       { property: "og:title", content: "Sign up — UpCreator" },
@@ -26,6 +30,7 @@ const ROLES: { id: Role; icon: string; label: string; desc: string }[] = [
 ];
 
 function Register() {
+  const { t, language } = useI18n();
   const { role: initial } = Route.useSearch();
   const { register } = useApp();
   const nav = useNavigate();
@@ -43,26 +48,27 @@ function Register() {
   };
 
   return (
-    <AuthShell title="Create your account" subtitle="It takes less than a minute.">
+    <AuthShell title={t("Create your account")} subtitle={t("It takes less than a minute.")}>
       <div className="mb-6 grid grid-cols-2 gap-3">
         {ROLES.map((r) => (
-          <button key={r.id} type="button" onClick={() => setRole(r.id)}
-            className={cn("rounded-2xl border-2 p-4 text-left transition", role === r.id ? "border-primary bg-secondary" : "hover:border-primary/40")}>
+          <Button variant="ghost" key={r.id} type="button" onClick={() => setRole(r.id)}
+            aria-pressed={role === r.id}
+            className={cn("block h-auto min-h-36 whitespace-normal rounded-2xl border-2 p-4 text-start transition", role === r.id ? "border-primary bg-secondary" : "hover:border-primary/40")}>
             <div className="text-2xl">{r.icon}</div>
-            <p className="mt-2 font-bold">{r.label}</p>
-            <p className="text-xs text-muted-foreground">{r.desc}</p>
-          </button>
+            <p className="mt-2 font-bold">{t(r.label)}</p>
+            <p className="text-xs text-muted-foreground">{t(r.desc)}</p>
+          </Button>
         ))}
       </div>
       <form onSubmit={submit} className="space-y-4">
-        <Field label={role === "brand" ? "Brand name" : "Full name"}><input className={inputCls} required value={name} onChange={(e) => setName(e.target.value)} /></Field>
-        <Field label="Email"><input className={inputCls} type="email" required value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
-        <Field label="Password"><input className={inputCls} type="password" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} /></Field>
-        {error && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
-        <button className={`${btnPrimary} w-full`}>Create {role} account</button>
+        <Field label={t(role === "brand" ? "Brand name" : "Full name")}><input className={inputCls} required value={name} onChange={(e) => setName(e.target.value)} /></Field>
+        <Field label={t("Email")}><input className={inputCls} type="email" dir="ltr" required value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
+        <Field label={t("Password")}><input className={inputCls} type="password" dir="ltr" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} /></Field>
+        {error && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{t(error)}</p>}
+        <Button variant="ghost" className={`${btnPrimary} w-full`}>{language === "ar" ? `إنشاء حساب ${t(role)}` : `Create ${role} account`}</Button>
       </form>
       <p className="mt-6 text-center text-sm text-muted-foreground">
-        Already have an account? <Link to="/login" className="font-bold text-primary">Log in</Link>
+        {t("Already have an account?")} <Link to="/login" className="font-bold text-primary">{t("Log in")}</Link>
       </p>
     </AuthShell>
   );
