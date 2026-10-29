@@ -221,5 +221,6 @@ export const arabic: Record<string, string> = {
   "Next": "التالي",
   "Welcome back,": "مرحبًا بعودتك،",
   "Grid view": "عرض شبكي",
-  "List view": "عرض قائمة"
+  "List view": "عرض قائمة",
+  "View campaign": "عرض الحملة"
 };
