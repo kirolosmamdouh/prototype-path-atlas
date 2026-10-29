@@ -86,7 +86,7 @@ function Landing() {
         <div className="reel-track flex w-max animate-[marquee_28s_linear_infinite] gap-4">
           {[...reels, ...reels].map((r, i) => (
             <div key={i} className="flex h-64 w-40 shrink-0 items-end rounded-3xl bg-brand-gradient p-3" style={{ opacity: 0.75 + (i % 3) * 0.1 }}>
-              <span className="rounded-full bg-background/90 px-2.5 py-1 text-xs font-bold">▶ {r}</span>
+              <span className="rounded-full bg-background/90 px-2.5 py-1 text-xs font-bold">▶ {language === "ar" ? r.split(" · ").map((part, index) => index === 0 ? t(part) : part).join(" · ") : r}</span>
             </div>
           ))}
         </div>
@@ -95,7 +95,7 @@ function Landing() {
       <section className="mx-auto grid max-w-5xl grid-cols-2 gap-6 px-6 py-16 md:grid-cols-4">
         {stats.map((s) => (
           <div key={t(s.label)} className="text-center">
-            <p className="text-4xl font-black">{s.value}</p>
+            <p className="text-4xl font-black"><bdi>{language === "ar" ? ({ "500+": "+٥٠٠", "EGP 2M+": "+٢ مليون ج.م", "94%": "٩٤٪", "< 24h": "أقل من ٢٤ ساعة" }[s.value] ?? s.value) : s.value}</bdi></p>
             <p className="mt-1 text-sm text-muted-foreground">{t(s.label)}</p>
           </div>
         ))}
@@ -115,7 +115,7 @@ function Landing() {
       <section id="faq" className="mx-auto max-w-3xl px-6 py-16">
         <h2 className="mb-8 text-center text-4xl font-black">{t("Questions, answered.")}</h2>
         {faqs.map((f, i) => (
-          <Button variant="ghost" key={t(f.q)} onClick={() => setOpen(open === i ? null : i)} className="block w-full border-b py-5 text-start">
+          <Button variant="ghost" key={t(f.q)} onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="block h-auto w-full whitespace-normal border-b py-5 text-start">
             <div className="flex justify-between text-lg font-bold">{t(f.q)}<span>{open === i ? "−" : "+"}</span></div>
             {open === i && <p className="mt-2 text-muted-foreground">{t(f.a)}</p>}
           </Button>

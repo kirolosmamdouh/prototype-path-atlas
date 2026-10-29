@@ -52,7 +52,8 @@ function Register() {
       <div className="mb-6 grid grid-cols-2 gap-3">
         {ROLES.map((r) => (
           <Button variant="ghost" key={r.id} type="button" onClick={() => setRole(r.id)}
-            className={cn("rounded-2xl border-2 p-4 text-start transition", role === r.id ? "border-primary bg-secondary" : "hover:border-primary/40")}>
+            aria-pressed={role === r.id}
+            className={cn("block h-auto min-h-36 whitespace-normal rounded-2xl border-2 p-4 text-start transition", role === r.id ? "border-primary bg-secondary" : "hover:border-primary/40")}>
             <div className="text-2xl">{r.icon}</div>
             <p className="mt-2 font-bold">{t(r.label)}</p>
             <p className="text-xs text-muted-foreground">{t(r.desc)}</p>

@@ -21,7 +21,7 @@ export function StatCard({ label, value, sub, accent }: { label: string; value: 
   return (
     <div className={cn("rounded-2xl border p-5", accent ? "border-transparent bg-brand-gradient text-primary-foreground" : "bg-card")}>
       <p className={cn("text-xs font-semibold uppercase tracking-wider", accent ? "opacity-90" : "text-muted-foreground")}>{t(label)}</p>
-      <p className="mt-2 text-3xl font-extrabold">{value}</p>
+      <p className="mt-2 text-3xl font-extrabold"><bdi>{typeof value === "number" ? new Intl.NumberFormat(language === "ar" ? "ar-EG" : "en-EG").format(value) : value}</bdi></p>
       {sub && <p className={cn("mt-1 text-xs", accent ? "opacity-90" : "text-muted-foreground")}>{t(sub)}</p>}
     </div>
   );
