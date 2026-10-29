@@ -14,6 +14,10 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AppIndexRouteImport } from './routes/app.index'
+import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
+import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
+import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,40 +44,98 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsIdRoute = AppCampaignsIdRouteImport.update({
+  id: '/campaigns/$id',
+  path: '/campaigns/$id',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
+  id: '/campaigns/new',
+  path: '/campaigns/new',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRoute
+  '/app': typeof AppRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/app/': typeof AppIndexRoute
+  '/app/campaigns/$id': typeof AppCampaignsIdRoute
+  '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/forgot-password' | '/login' | '/register'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/forgot-password' | '/login' | '/register'
-  id: '__root__' | '/' | '/app' | '/forgot-password' | '/login' | '/register'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/app/'
+    | '/app/campaigns/$id'
+    | '/app/campaigns/new'
+    | '/app/campaigns/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRoute
+  AppRoute: typeof AppRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
@@ -116,12 +178,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/': {
+      id: '/app/campaigns/'
+      path: '/campaigns'
+      fullPath: '/app/campaigns/'
+      preLoaderRoute: typeof AppCampaignsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/$id': {
+      id: '/app/campaigns/$id'
+      path: '/campaigns/$id'
+      fullPath: '/app/campaigns/$id'
+      preLoaderRoute: typeof AppCampaignsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/campaigns/new': {
+      id: '/app/campaigns/new'
+      path: '/campaigns/new'
+      fullPath: '/app/campaigns/new'
+      preLoaderRoute: typeof AppCampaignsNewRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
+interface AppRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+  AppCampaignsIdRoute: typeof AppCampaignsIdRoute
+  AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+  AppCampaignsIdRoute: AppCampaignsIdRoute,
+  AppCampaignsNewRoute: AppCampaignsNewRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRoute,
+  AppRoute: AppRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
