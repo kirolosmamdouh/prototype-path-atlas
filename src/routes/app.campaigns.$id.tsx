@@ -52,7 +52,7 @@ function CampaignDetail() {
         <p className="mt-6 leading-relaxed">{c.description}</p>
         <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[["Budget", `${currency} ${fmt(c.budget)}`], ["Platform", c.platform], ["Deliverables", c.deliverables], ["Deadline", fmtDate(c.deadline)]].map(([k, v]) => (
-            <div key={k} className="rounded-xl bg-muted p-3"><dt className="text-xs text-muted-foreground">{t(k)}</dt><dd className="mt-1 text-sm font-bold">{v}</dd></div>
+            <div key={k} className="rounded-xl bg-muted p-3"><dt className="text-xs text-muted-foreground">{t(k ?? "")}</dt><dd className="mt-1 break-words text-sm font-bold"><bdi>{v}</bdi></dd></div>
           ))}
         </dl>
 
