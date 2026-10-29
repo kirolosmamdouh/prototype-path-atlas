@@ -16,7 +16,7 @@ export function AuthShell({ title, subtitle, children }: { title: string; subtit
           </h2>
           <p className="mt-4 max-w-md text-sidebar-foreground">{t("500+ vetted creators. Proposals in under 24 hours.")}</p>
         </div>
-        <p className="text-xs text-sidebar-foreground"</p>
+        <p className="text-xs text-sidebar-foreground">© 2026 UpCreator</p>
       </div>
       <div className="flex items-center justify-center p-6">
         <div className="w-full max-w-md">

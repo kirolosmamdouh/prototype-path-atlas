@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { LanguageToggle } from "@/components/uc/LanguageToggle";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -114,10 +115,10 @@ function Landing() {
       <section id="faq" className="mx-auto max-w-3xl px-6 py-16">
         <h2 className="mb-8 text-center text-4xl font-black">{t("Questions, answered.")}</h2>
         {faqs.map((f, i) => (
-          <button key={t(f.q)} onClick={() => setOpen(open === i ? null : i)} className="block w-full border-b py-5 text-start">
+          <Button variant="ghost" key={t(f.q)} onClick={() => setOpen(open === i ? null : i)} className="block w-full border-b py-5 text-start">
             <div className="flex justify-between text-lg font-bold">{t(f.q)}<span>{open === i ? "−" : "+"}</span></div>
             {open === i && <p className="mt-2 text-muted-foreground">{t(f.a)}</p>}
-          </button>
+          </Button>
         ))}
       </section>
 

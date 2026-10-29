@@ -7,6 +7,7 @@ import { useApp } from "@/lib/store";
 import type { Store, User } from "@/lib/types";
 
 export const Route = createFileRoute("/app/")({
+  head: () => ({ meta: [{"title": "Dashboard \u2014 UpCreator"}, {"name": "description", "content": "Dashboard in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "Dashboard \u2014 UpCreator"}, {"property": "og:description", "content": "Dashboard in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
   component: Dashboard,
 });
 
@@ -15,7 +16,7 @@ function Dashboard() {
   const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
   const { user, store } = useApp();
   if (!user) return null;
-  return user.role === "brand" ? <BrandDashboard user={user} store={store} /<CreatorDashboard user={user} store={store} />;
+  return user.role === "brand" ? <BrandDashboard user={user} store={store} /> : <CreatorDashboard user={user} store={store} />;
 }
 
 function BrandDashboard({ user, store }: { user: User; store: Store }) {
@@ -59,7 +60,7 @@ function BrandDashboard({ user, store }: { user: User; store: Store }) {
         </div>
       )}
       <h2 className="mb-4 mt-10 text-lg font-bold">{t("Your campaigns")}</h2>
-      <div className="grid gap-4 md:grid-cols-2">{mine.map((c) =<CampaignCard key={c.id} campaign={c} store={store} />)}</div>
+      <div className="grid gap-4 md:grid-cols-2">{mine.map((c) => <CampaignCard key={c.id} campaign={c} store={store} />)}</div>
     </>
   );
 }
@@ -84,7 +85,7 @@ function CreatorDashboard({ user, store }: { user: User; store: Store }) {
       </div>
       <h2 className="mb-4 mt-10 text-lg font-bold">{t("Recommended for you")}</h2>
       {recommended.length ? (
-        <div className="grid gap-4 md:grid-cols-2">{recommended.map((c) =<CampaignCard key={c.id} campaign={c} store={store} />)}</div>
+        <div className="grid gap-4 md:grid-cols-2">{recommended.map((c) => <CampaignCard key={c.id} campaign={c} store={store} />)}</div>
       ) : (
         <EmptyState icon="🎉" title={t("You've applied to everything open")} body={t("Check back soon for new campaigns.")} />
       )}

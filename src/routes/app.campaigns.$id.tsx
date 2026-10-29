@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useLocalizedFormat } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
@@ -6,7 +7,8 @@ import { Avatar, EmptyState, Field, StatusBadge, btnGhost, btnPrimary, inputCls 
 import { useApp } from "@/lib/store";
 import type { ApplicationStatus } from "@/lib/types";
 
-export const Route = createFileRoute("/app/campaigns/$id")({ component: CampaignDetail });
+export const Route = createFileRoute("/app/campaigns/$id")({
+  head: () => ({ meta: [{"title": "Campaign details \u2014 UpCreator"}, {"name": "description", "content": "Campaign details in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "Campaign details \u2014 UpCreator"}, {"property": "og:description", "content": "Campaign details in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }), component: CampaignDetail });
 
 function CampaignDetail() {
   const { t, language } = useI18n();
@@ -69,8 +71,8 @@ function CampaignDetail() {
                     </div>
                     {a.status === "pending" ? (
                       <div className="flex gap-2">
-                        <button onClick={() => setStatus(a.id, "rejected")} className={btnGhost}>{t("Decline")}</button>
-                        <button onClick={() => setStatus(a.id, "accepted")} className={btnPrimary}>{t("Accept")}</button>
+                        <Button variant="ghost" onClick={() => setStatus(a.id, "rejected")} className={btnGhost}>{t("Decline")}</Button>
+                        <Button variant="ghost" onClick={() => setStatus(a.id, "accepted")} className={btnPrimary}>{t("Accept")}</Button>
                       </div>
                     ) : <StatusBadge status={a.status} />}
                   </div>
@@ -85,7 +87,7 @@ function CampaignDetail() {
         <aside className="h-fit rounded-2xl border bg-card p-6 lg:sticky lg:top-10">
           {mine ? (
             <div className="text-center">
-              <p className="text-3xl"</p>
+              <p className="text-3xl">📨</p>
               <p className="mt-2 font-bold">{t("Proposal sent")}</p>
               <div className="mt-2"><StatusBadge status={mine.status} /></div>
               <p className="mt-3 text-sm text-muted-foreground">{language === "ar" ? "أجرك:" : "Your rate:"} {currency} {fmt(mine.rate)}</p>
@@ -95,7 +97,7 @@ function CampaignDetail() {
               <h2 className="text-lg font-bold">{t("Send a proposal")}</h2>
               <Field label={t("Why you?")}><textarea className={inputCls} rows={4} required value={pitch} onChange={(e) => setPitch(e.target.value)} /></Field>
               <Field label={t("Your rate (EGP)")}><input className={inputCls} type="number" min={1} required value={rate} onChange={(e) => setRate(e.target.value)} /></Field>
-              <button className={`${btnPrimary} w-full`}>{t("Submit proposal")}</button>
+              <Button variant="ghost" className={`${btnPrimary} w-full`}>{t("Submit proposal")}</Button>
             </form>
           )}
         </aside>

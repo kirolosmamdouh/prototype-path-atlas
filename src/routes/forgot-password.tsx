@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
@@ -7,6 +8,8 @@ import { Field, btnPrimary, inputCls } from "@/components/uc/ui";
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Reset password — UpCreator" },
       { name: "description", content: "Get a link to reset your UpCreator password." },
       { property: "og:title", content: "Reset password — UpCreator" },
@@ -27,7 +30,7 @@ function Forgot() {
       ) : (
         <form onSubmit={submit} className="space-y-4">
           <Field label={t("Email")}><input className={inputCls} type="email" dir="ltr" required /></Field>
-          <button className={`${btnPrimary} w-full`}>{t("Send reset link")}</button>
+          <Button variant="ghost" className={`${btnPrimary} w-full`}>{t("Send reset link")}</Button>
         </form>
       )}
       <p className="mt-6 text-center text-sm"><Link to="/login" className="font-bold text-primary">{t("\u2190 Back to log in")}</Link></p>

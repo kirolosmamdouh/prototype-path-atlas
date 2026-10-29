@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { LanguageToggle } from "@/components/uc/LanguageToggle";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
@@ -9,7 +10,7 @@ import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/app")({
-  head: () => ({ meta: [{ title: "Dashboard — UpCreator" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Workspace — UpCreator" }, { name: "description", content: "Your UpCreator workspace for brand and creator collaborations." }, { property: "og:title", content: "Workspace — UpCreator" }, { property: "og:description", content: "Your UpCreator workspace for brand and creator collaborations." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
   component: AppLayout,
 });
 
@@ -61,16 +62,16 @@ function AppLayout() {
             <p className="truncate text-sm font-bold text-sidebar-accent-foreground">{user.name}</p>
             <p className="text-xs capitalize text-sidebar-foreground">{t(user.role)}</p>
           </div>
-          <button onClick={() => { logout(); nav({ to: "/" }); }} className="text-xs font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground" title={t("Log out")}>
+          <Button variant="ghost" onClick={() => { logout(); nav({ to: "/" }); }} className="text-xs font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground" title={t("Log out")}>
             ⎋
-          </button>
+          </Button>
         </div>
       </aside>
       {menuOpen && <div className="fixed inset-0 z-30 bg-foreground/40 lg:hidden" onClick={() => setMenuOpen(false)} />}
 
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-20 flex h-14 items-center border-b bg-background px-4 lg:hidden">
-          <button onClick={() => setMenuOpen(true)} className="me-3 text-xl" aria-label={t("Open menu")}</button>
+          <Button variant="ghost" onClick={() => setMenuOpen(true)} className="me-3 text-xl" aria-label={t("Open menu")}>☰</Button>
           <Logo /><div className="ms-auto"><LanguageToggle /></div>
         </header>
         <main className="mx-auto max-w-6xl p-6 lg:p-10">

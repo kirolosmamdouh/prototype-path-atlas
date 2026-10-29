@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
@@ -5,7 +6,8 @@ import { Field, PageHeader, btnPrimary, inputCls } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 import type { Campaign } from "@/lib/types";
 
-export const Route = createFileRoute("/app/campaigns/new")({ component: CampaignForm });
+export const Route = createFileRoute("/app/campaigns/new")({
+  head: () => ({ meta: [{"title": "Post a campaign \u2014 UpCreator"}, {"name": "description", "content": "Post a campaign in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "Post a campaign \u2014 UpCreator"}, {"property": "og:description", "content": "Post a campaign in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }), component: CampaignForm });
 
 const NICHES = ["Fashion", "Beauty", "Tech", "Fitness", "Food", "Travel", "Lifestyle", "Gaming", "Education", "Other"];
 const PLATFORMS: Campaign["platform"][] = ["TikTok", "Instagram", "YouTube", "Both"];
@@ -35,13 +37,13 @@ function CampaignForm() {
         <Field label={t("Campaign title")}><input className={inputCls} required value={f.title} onChange={set("title")} /></Field>
         <Field label={t("Brief")}><textarea className={inputCls} rows={5} required value={f.description} onChange={set("description")} /></Field>
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label={t("Niche")}><select className={inputCls} value={f.niche} onChange={set("niche")}>{NICHES.map((n) =<option key={n} value={n}>{t(n)}</option>)}</select></Field>
-          <Field label={t("Platform")}><select className={inputCls} value={f.platform} onChange={set("platform")}>{PLATFORMS.map((n) =<option key={n} value={n}>{t(n)}</option>)}</select></Field>
+          <Field label={t("Niche")}><select className={inputCls} value={f.niche} onChange={set("niche")}>{NICHES.map((n) => <option key={n} value={n}>{t(n)}</option>)}</select></Field>
+          <Field label={t("Platform")}><select className={inputCls} value={f.platform} onChange={set("platform")}>{PLATFORMS.map((n) => <option key={n} value={n}>{t(n)}</option>)}</select></Field>
           <Field label={t("Budget (EGP)")}><input className={inputCls} type="number" min={1} required value={f.budget} onChange={set("budget")} /></Field>
           <Field label={t("Deadline")}><input className={inputCls} type="date" dir="ltr" required value={f.deadline} onChange={set("deadline")} /></Field>
         </div>
         <Field label={t("Deliverables")}><input className={inputCls} placeholder={t("e.g. 2 TikTok videos (30s)")} required value={f.deliverables} onChange={set("deliverables")} /></Field>
-        <button className={btnPrimary}>{t("Publish campaign")}</button>
+        <Button variant="ghost" className={btnPrimary}>{t("Publish campaign")}</Button>
       </form>
     </>
   );

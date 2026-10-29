@@ -4,7 +4,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyState, PageHeader, StatusBadge, btnPrimary } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 
-export const Route = createFileRoute("/app/applications")({ component: MyApplications });
+export const Route = createFileRoute("/app/applications")({
+  head: () => ({ meta: [{"title": "My applications \u2014 UpCreator"}, {"name": "description", "content": "My applications in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "My applications \u2014 UpCreator"}, {"property": "og:description", "content": "My applications in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }), component: MyApplications });
 
 function MyApplications() {
   const { t, language } = useI18n();

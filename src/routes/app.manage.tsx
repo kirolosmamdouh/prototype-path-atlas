@@ -4,7 +4,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { EmptyState, PageHeader, StatusBadge, btnPrimary } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 
-export const Route = createFileRoute("/app/manage")({ component: Manage });
+export const Route = createFileRoute("/app/manage")({
+  head: () => ({ meta: [{"title": "Manage work \u2014 UpCreator"}, {"name": "description", "content": "Manage work in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "Manage work \u2014 UpCreator"}, {"property": "og:description", "content": "Manage work in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }), component: Manage });
 
 function Manage() {
   const { t, language } = useI18n();
