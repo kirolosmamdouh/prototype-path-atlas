@@ -7,16 +7,16 @@ const sneakers = SEED.campaigns.find((c) => c.id === 3)!;
 
 describe("creator match", () => {
   it("ranks the beauty creator first for the serum campaign", () => {
-    expect(matchCreators(serum, SEED)[0].creator.name).toBe("Salma Hassan");
+    expect(matchCreators(serum, SEED)[0]!.creator.name).toBe("Salma Hassan");
   });
   it("ranks the fashion creator first for the sneaker campaign", () => {
-    expect(matchCreators(sneakers, SEED)[0].creator.name).toBe("Nour Adel");
+    expect(matchCreators(sneakers, SEED)[0]!.creator.name).toBe("Nour Adel");
   });
   it("penalises a rate above budget", () => {
-    const creator = { ...SEED.users[1], rate: serum.budget * 2 };
+    const creator = { ...SEED.users[1]!, rate: serum.budget * 2 };
     const r = scoreCreator(serum, creator, SEED);
     expect(r.reasons.some((x) => x.label === "Rate above budget")).toBe(true);
-    expect(r.score).toBeLessThan(scoreCreator(serum, SEED.users[1], SEED).score);
+    expect(r.score).toBeLessThan(scoreCreator(serum, SEED.users[1]!, SEED).score);
   });
   it("only lists creators", () => {
     expect(matchCreators(serum, SEED).every((r) => r.creator.role === "creator")).toBe(true);
