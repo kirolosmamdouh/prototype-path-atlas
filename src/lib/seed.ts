@@ -18,11 +18,13 @@ export const SEED: Store = {
     { id: 2, userId: 1, title: "Ramadan gift box unboxing", description: "Unbox our limited Ramadan gift set and share your favourite piece.", niche: "Lifestyle", platform: "Instagram", budget: 3000, deliverables: "1 Reel + 3 Stories", deadline: daysAhead(21), status: "open", createdAt: daysAgo(5) },
     { id: 3, userId: 4, title: "Street style sneaker drop", description: "Style our new runners three ways around Downtown Cairo.", niche: "Fashion", platform: "Both", budget: 6000, deliverables: "1 Reel + 1 TikTok", deadline: daysAhead(10), status: "open", createdAt: daysAgo(1) },
     { id: 4, userId: 4, title: "Gym day in our trainers", description: "Full workout POV wearing our training line.", niche: "Fitness", platform: "YouTube", budget: 5200, deliverables: "1 YouTube Short", deadline: daysAhead(30), status: "in_progress", createdAt: daysAgo(12) },
+    { id: 5, userId: 1, title: "Eid skincare bundle", description: "", niche: "Beauty", platform: "Instagram", budget: 0, deliverables: "", deadline: daysAhead(40), status: "draft", createdAt: daysAgo(3) },
   ],
   applications: [
     { id: 1, campaignId: 1, creatorId: 2, pitch: "My audience is 80% women 18–28 who love skincare — perfect fit!", rate: 4000, status: "pending", createdAt: daysAgo(1) },
     { id: 2, campaignId: 3, creatorId: 2, pitch: "I can do a fun three-outfit transition.", rate: 5500, status: "accepted", createdAt: daysAgo(1) },
     { id: 3, campaignId: 1, creatorId: 3, pitch: "I'd love to try a male-skincare angle.", rate: 3800, status: "pending", createdAt: daysAgo(0.5) },
+    { id: 4, campaignId: 2, creatorId: 5, pitch: "Unboxing reels are my thing.", rate: 2800, status: "accepted", createdAt: daysAgo(4) },
   ],
   messages: [
     { id: 1, senderId: 4, receiverId: 2, body: "Loved your proposal! When can you shoot?", isRead: false, createdAt: daysAgo(0.3) },

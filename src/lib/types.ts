@@ -14,7 +14,7 @@ export interface User {
   rate?: number;
 }
 
-export type CampaignStatus = "open" | "in_progress" | "closed";
+export type CampaignStatus = "draft" | "open" | "in_progress" | "closed";
 
 export interface Campaign {
   id: number;

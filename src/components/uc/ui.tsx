@@ -28,6 +28,7 @@ export function StatCard({ label, value, sub, accent }: { label: string; value: 
 }
 
 const STATUS: Record<CampaignStatus | ApplicationStatus, { label: string; cls: string }> = {
+  draft: { label: "Draft", cls: "bg-primary/10 text-primary" },
   open: { label: "Open", cls: "bg-success/10 text-success" },
   in_progress: { label: "In progress", cls: "bg-primary/10 text-primary" },
   closed: { label: "Closed", cls: "bg-muted text-muted-foreground" },

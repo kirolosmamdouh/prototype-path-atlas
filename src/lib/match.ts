@@ -79,3 +79,32 @@ export function rateCeiling(results: MatchResult[], budget: number): number {
   for (const r of results) if (r.creator.rate != null && r.creator.rate > max) max = r.creator.rate;
   return Math.max(500, Math.ceil(max / 500) * 500);
 }
+
+/** Brand overview: each creator's best score across the brand's live (non-closed) campaigns, highest first. */
+export function personalizedCreators(brandId: number, store: Store, limit = 8): (MatchResult & { campaign: Campaign })[] {
+  const live = store.campaigns.filter((c) => c.userId === brandId && c.status !== "closed");
+  if (!live.length) return [];
+  const best = new Map<number, MatchResult & { campaign: Campaign }>();
+  for (const c of live) for (const r of matchCreators(c, store)) {
+    const prev = best.get(r.creator.id);
+    if (!prev || r.score > prev.score) best.set(r.creator.id, { ...r, campaign: c });
+  }
+  return [...best.values()].sort((a, b) => b.score - a.score).slice(0, limit);
+}
+
+export interface Collaborator { creator: User; jobs: number; lastCampaign: Campaign; lastAt: string }
+
+/** Creators whose proposals this brand accepted, most recent collaboration first. */
+export function pastCollaborators(brandId: number, store: Store): Collaborator[] {
+  const mine = new Map(store.campaigns.filter((c) => c.userId === brandId).map((c) => [c.id, c]));
+  const out = new Map<number, Collaborator>();
+  for (const a of store.applications) {
+    const camp = mine.get(a.campaignId);
+    const creator = store.users.find((u) => u.id === a.creatorId);
+    if (a.status !== "accepted" || !camp || !creator) continue;
+    const prev = out.get(creator.id);
+    if (!prev) out.set(creator.id, { creator, jobs: 1, lastCampaign: camp, lastAt: a.createdAt });
+    else { prev.jobs++; if (a.createdAt > prev.lastAt) { prev.lastAt = a.createdAt; prev.lastCampaign = camp; } }
+  }
+  return [...out.values()].sort((a, b) => b.lastAt.localeCompare(a.lastAt));
+}
