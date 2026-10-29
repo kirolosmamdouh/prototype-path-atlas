@@ -10,6 +10,8 @@ export interface User {
   niche?: string;
   location?: string;
   bio?: string;
+  platforms?: ("TikTok" | "Instagram" | "YouTube")[];
+  rate?: number;
 }
 
 export type CampaignStatus = "open" | "in_progress" | "closed";
