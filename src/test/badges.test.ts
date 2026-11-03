@@ -44,3 +44,21 @@ describe("brand badges", () => {
     expect(brandBadges(SEED.users.find((u) => u.id === 1)!, SEED)).toEqual([]);
   });
 });
+
+import { EMPTY_BADGE_FILTERS, JOB_SUCCESS_MIN, filterByBadges, jobSuccess } from "@/lib/badges";
+describe("badge filters", () => {
+  const app = (id: number, status: "accepted" | "rejected" | "pending") => ({ id, campaignId: 1, creatorId: 9, pitch: "", rate: 1, status, createdAt: "" });
+  it("job success is accepted share of decided proposals, ignoring pending", () => {
+    const s = { ...empty, applications: [app(1, "accepted"), app(2, "rejected"), app(3, "pending")] };
+    expect(jobSuccess(9, s)).toBe(50);
+    expect(jobSuccess(9, empty)).toBeNull();
+    expect(JOB_SUCCESS_MIN).toBe(90);
+  });
+  it("verified and top rated filters keep only matching creators", () => {
+    const a = { ...creator(1, TOP_RATED_FOLLOWERS), verified: true };
+    const b = creator(2, 10);
+    expect(filterByBadges([a, b], empty, { ...EMPTY_BADGE_FILTERS, verified: true })).toEqual([a]);
+    expect(filterByBadges([a, b], empty, { ...EMPTY_BADGE_FILTERS, topRated: true })).toEqual([a]);
+    expect(filterByBadges([a, b], empty, { ...EMPTY_BADGE_FILTERS, jobSuccess: true })).toEqual([]);
+  });
+});
