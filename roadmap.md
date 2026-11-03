@@ -8,3 +8,4 @@
 
 # Creator search & profiles
 - [x] Top-bar creator results open a creator profile page; search narrows by niche and platform.
+- [ ] Sort creator results by match score, rate, and follower count (needs follower counts in the data).
