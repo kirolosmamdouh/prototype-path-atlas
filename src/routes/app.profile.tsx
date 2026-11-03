@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Avatar, BadgeCriteria, BadgePill, Field, PageHeader, VerifiedBadge, btnPrimary, inputCls } from "@/components/uc/ui";
+import { Avatar, BadgeCriteria, BadgePill, Field, PageHeader, VerifiedBadge, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
 import { JOB_SUCCESS_MIN, brandBadges, creatorBadges, jobSuccess } from "@/lib/badges";
 import { useI18n } from "@/lib/i18n";
 import { profileCompletion } from "@/lib/profile";
+import { PublicProfileCard } from "@/components/uc/PublicProfileCard";
 import { useApp } from "@/lib/store";
 import type { User } from "@/lib/types";
 
@@ -26,6 +27,7 @@ function ProfileForm({ user }: { user: User }) {
   const { t } = useI18n();
   const { store, update } = useApp();
   const [f, setF] = useState<User>(user);
+  const [preview, setPreview] = useState(false);
   const isCreator = user.role === "creator";
   const set = (k: keyof User) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setF((p) => ({ ...p, [k]: ["rate", "followers"].includes(k) ? (e.target.value === "" ? undefined : Number(e.target.value)) : e.target.value }));
@@ -42,7 +44,14 @@ function ProfileForm({ user }: { user: User }) {
 
   return (
     <>
-      <PageHeader title="Profile" subtitle="Edit your public profile." />
+      <PageHeader title="Profile" subtitle="Edit your public profile."
+        action={<button type="button" aria-pressed={preview} onClick={() => setPreview((v) => !v)} className={btnGhost}>{t(preview ? "Back to editing" : "Preview public profile")}</button>} />
+      {preview ? (
+        <div className="space-y-4">
+          <p className="rounded-xl bg-primary/10 px-4 py-3 text-sm font-semibold text-primary">{t("This is how brands see your profile. Unsaved edits are included.")}</p>
+          <PublicProfileCard person={f} store={store} />
+        </div>
+      ) : (
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
         <form onSubmit={save} className="space-y-4 rounded-2xl border bg-card p-6">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -89,6 +98,7 @@ function ProfileForm({ user }: { user: User }) {
           <BadgeCriteria />
         </aside>
       </div>
+      )}
     </>
   );
 }

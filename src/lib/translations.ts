@@ -266,5 +266,8 @@ export const arabic: Record<string, string> = {
   "Reset all demo data to the original sample.": "أعد جميع البيانات التجريبية إلى أصلها.",
   "Reset demo data": "إعادة ضبط البيانات",
   "Profile complete": "اكتمال الملف",
-  "Complete your profile": "أكمل ملفك"
+  "Complete your profile": "أكمل ملفك",
+  "Preview public profile": "معاينة الملف العام",
+  "Back to editing": "العودة إلى التعديل",
+  "This is how brands see your profile. Unsaved edits are included.": "هكذا تظهر صفحتك للعلامات التجارية. تشمل المعاينة التعديلات غير المحفوظة."
 };
