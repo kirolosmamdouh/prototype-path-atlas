@@ -66,6 +66,22 @@ export function filterMatches(results: MatchResult[], f: MatchFilters): MatchRes
   });
 }
 
+/** Result ordering: best match first, cheapest rate first, or biggest audience first. Missing values sort last. */
+export type MatchSort = "score" | "rate" | "followers";
+
+export function sortMatches(results: MatchResult[], sort: MatchSort): MatchResult[] {
+  const key = (r: MatchResult) =>
+    sort === "score" ? r.score : sort === "rate" ? r.creator.rate : r.creator.followers;
+  return [...results].sort((a, b) => {
+    const ka = key(a);
+    const kb = key(b);
+    if (ka == null && kb == null) return b.score - a.score;
+    if (ka == null) return 1;
+    if (kb == null) return -1;
+    return sort === "rate" ? ka - kb : (kb as number) - (ka as number);
+  });
+}
+
 /** Top-bar creator search: name text plus niche and platform narrowing. */
 export interface CreatorSearch {
   q: string;
