@@ -3,7 +3,8 @@ import { useLocalizedFormat } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
-import { Avatar, EmptyState, Field, StatusBadge, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
+import { Avatar, BadgePill, EmptyState, Field, StatusBadge, VerifiedBadge, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
+import { brandBadges } from "@/lib/badges";
 import { useApp } from "@/lib/store";
 import type { ApplicationStatus } from "@/lib/types";
 
@@ -48,7 +49,11 @@ function CampaignDetail() {
           <span className="text-xs text-muted-foreground">{language === "ar" ? "نُشرت" : "Posted"} {ago(c.createdAt)}</span>
         </div>
         <h1 className="mt-3 text-3xl font-extrabold tracking-tight">{c.title}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{language === "ar" ? "بواسطة" : "by"} {brand?.company ?? brand?.name}</p>
+        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+          {language === "ar" ? "بواسطة" : "by"} <span className="font-semibold text-foreground">{brand?.company ?? brand?.name}</span>
+          {brand?.verified && <VerifiedBadge />}
+          {brand && brandBadges(brand, store).map((b) => <BadgePill key={b.label} badge={b} />)}
+        </p>
         <p className="mt-6 leading-relaxed">{c.description}</p>
         <dl className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {[["Budget", `${currency} ${fmt(c.budget)}`], ["Platform", c.platform], ["Deliverables", c.deliverables], ["Deadline", fmtDate(c.deadline)]].map(([k, v]) => (

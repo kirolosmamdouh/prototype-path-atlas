@@ -5,7 +5,7 @@ import { useI18n, useLocalizedFormat } from "@/lib/i18n";
 import { pastCollaborators, personalizedCreators } from "@/lib/match";
 import type { Store, User } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { Avatar, StatusBadge } from "./ui";
+import { Avatar, StatusBadge, VerifiedBadge } from "./ui";
 
 const outlineBtn = "inline-flex flex-1 items-center justify-center rounded-full border-2 border-primary px-4 py-2 text-sm font-bold text-primary transition hover:bg-primary/5";
 const iconBtn = "grid h-10 w-10 shrink-0 place-items-center rounded-full border bg-background text-foreground transition hover:bg-muted";
@@ -114,7 +114,7 @@ export function BrandOverview({ user, store }: { user: User; store: Store }) {
               <div className="flex items-start gap-3">
                 <Avatar name={cr.name} className="h-12 w-12 rounded-full" />
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-lg font-bold">{cr.name}</p>
+                  <p className="flex items-center gap-1.5 truncate text-lg font-bold">{cr.name} {cr.verified && <VerifiedBadge />}</p>
                   <p className="text-sm text-muted-foreground">{t(cr.location ?? "Egypt")}</p>
                 </div>
                 <Heart className="h-5 w-5 text-primary" />
@@ -144,7 +144,7 @@ export function BrandOverview({ user, store }: { user: User; store: Store }) {
           <div key={cr.id} className={cn(card, "min-h-[300px]")}>
             <div className="flex items-start gap-3">
               <Avatar name={cr.name} className="h-12 w-12 rounded-full" />
-              <div><p className="text-lg font-bold">{cr.name}</p><p className="text-sm text-muted-foreground">{t(cr.location ?? "Egypt")}</p></div>
+              <div><p className="flex items-center gap-1.5 text-lg font-bold">{cr.name} {cr.verified && <VerifiedBadge />}</p><p className="text-sm text-muted-foreground">{t(cr.location ?? "Egypt")}</p></div>
             </div>
             <div className="mt-4 grid grid-cols-2 text-center">
               <div><p className="font-bold">{fmt(jobs)}</p><p className="text-xs text-muted-foreground">{t("Jobs")}</p></div>

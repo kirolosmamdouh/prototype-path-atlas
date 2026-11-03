@@ -227,5 +227,10 @@ export const arabic: Record<string, string> = {
   "Creator not found": "صانع المحتوى غير موجود",
   "Jobs together": "أعمال معًا",
   "Sort by": "ترتيب حسب",
-  "Followers": "متابعون"
+  "Followers": "متابعون",
+  "Verified": "موثّق",
+  "Top Rated": "الأعلى تقييمًا",
+  "Rising Star": "نجم صاعد",
+  "Proven Partner": "شريك موثوق",
+  "Active Hirer": "علامة نشطة التوظيف"
 };

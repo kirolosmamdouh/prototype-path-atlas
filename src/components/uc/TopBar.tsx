@@ -5,6 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { EMPTY_CREATOR_SEARCH, PLATFORM_OPTIONS, creatorNiches, searchCreators } from "@/lib/match";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { VerifiedBadge } from "@/components/uc/ui";
 
 const chip = (active: boolean) =>
   cn("rounded-full px-2.5 py-0.5 text-xs font-bold transition", active ? "bg-primary text-primary-foreground" : "bg-muted hover:opacity-80");
@@ -59,7 +60,7 @@ export function TopBar() {
             ))}
             {!!creators.length && <p className="px-3 pt-2 text-xs font-bold uppercase text-muted-foreground">{t("Creators")}</p>}
             {creators.map((u) => (
-              <Link key={u.id} to="/app/creators/$id" params={{ id: String(u.id) }} className="block rounded-lg px-3 py-2 text-sm hover:bg-muted">{u.name} · {t(u.niche ?? "")}</Link>
+              <Link key={u.id} to="/app/creators/$id" params={{ id: String(u.id) }} className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm hover:bg-muted">{u.name} {u.verified && <VerifiedBadge />} <span className="text-muted-foreground">· {t(u.niche ?? "")}</span></Link>
             ))}
           </div>
         )}
