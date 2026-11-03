@@ -1,3 +1,4 @@
+import type { User } from "@/lib/types";
 import { describe, expect, it } from "vitest";
 import { EMPTY_FILTERS, creatorNiches, filterMatches, isFiltered, matchCreators, rateCeiling, scoreCreator } from "@/lib/match";
 import { SEED } from "@/lib/seed";
