@@ -2,6 +2,7 @@ import { useLocalizedFormat } from "@/lib/i18n";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CampaignCard } from "@/components/uc/CampaignCard";
+import { CreatorHome } from "@/components/uc/CreatorHome";
 import { BrandOverview } from "@/components/uc/BrandOverview";
 import { Avatar, EmptyState, PageHeader, StatCard, StatusBadge, btnPrimary } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
@@ -58,42 +59,5 @@ function BrandDashboard({ user, store }: { user: User; store: Store }) {
 }
 
 function CreatorDashboard({ user, store }: { user: User; store: Store }) {
-  const { t, language } = useI18n();
-  const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
-  const apps = store.applications.filter((a) => a.creatorId === user.id);
-  const earned = apps.filter((a) => a.status === "accepted").reduce((s, a) => s + a.rate, 0);
-  const applied = new Set(apps.map((a) => a.campaignId));
-  const recommended = store.campaigns.filter((c) => c.status === "open" && !applied.has(c.id)).slice(0, 4);
-
-  return (
-    <>
-      <PageHeader title={`${language === "ar" ? "مرحبًا،" : "Welcome,"} ${user.name.split(" ")[0]} ✨`} subtitle={t("Find your next brand deal.")}
-        action={<Link to="/app/campaigns" className={btnPrimary}>{t("Browse campaigns")}</Link>} />
-      <ProfileNudge user={user} />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard accent label={t("Earnings")} value={`${currency} ${fmt(earned)}`} sub="From accepted deals" />
-        <StatCard label={t("Proposals sent")} value={apps.length} />
-        <StatCard label={t("Accepted")} value={apps.filter((a) => a.status === "accepted").length} />
-        <StatCard label={t("Pending")} value={apps.filter((a) => a.status === "pending").length} />
-      </div>
-      <h2 className="mb-4 mt-10 text-lg font-bold">{t("Recommended for you")}</h2>
-      {recommended.length ? (
-        <div className="grid gap-4 md:grid-cols-2">{recommended.map((c) => <CampaignCard key={c.id} campaign={c} store={store} />)}</div>
-      ) : (
-        <EmptyState icon="🎉" title={t("You've applied to everything open")} body={t("Check back soon for new campaigns.")} />
-      )}
-      <h2 className="mb-4 mt-10 text-lg font-bold">{t("Recent proposals")}</h2>
-      <div className="divide-y rounded-2xl border bg-card">
-        {apps.map((a) => {
-          const c = store.campaigns.find((x) => x.id === a.campaignId);
-          return (
-            <div key={a.id} className="flex items-center justify-between gap-4 p-4">
-              <p className="font-semibold">{c?.title}</p>
-              <StatusBadge status={a.status} />
-            </div>
-          );
-        })}
-      </div>
-    </>
-  );
+  return <CreatorHome user={user} store={store} />;
 }
