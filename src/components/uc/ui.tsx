@@ -2,7 +2,7 @@ import { useI18n } from "@/lib/i18n";
 import type { ReactNode } from "react";
 import { BadgeCheck, Briefcase, Crown, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Badge, BadgeIcon } from "@/lib/badges";
+import { BADGE_CRITERIA, type Badge, type BadgeIcon } from "@/lib/badges";
 import type { ApplicationStatus, CampaignStatus } from "@/lib/types";
 
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
@@ -87,14 +87,29 @@ export function VerifiedBadge({ className }: { className?: string }) {
 const BADGE_ICONS: Record<BadgeIcon, typeof Crown> = { crown: Crown, star: Star, briefcase: Briefcase };
 
 /** Achievement pill, e.g. "Top Rated" or "Active Hirer". */
-export function BadgePill({ badge }: { badge: Badge }) {
+export function BadgePill({ badge, suffix }: { badge: Badge; suffix?: string }) {
   const { t } = useI18n();
   const Icon = BADGE_ICONS[badge.icon];
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold", badge.tone === "brand" ? "bg-primary/10 text-primary" : "bg-pink/10 text-pink")}>
       <Icon className="h-3.5 w-3.5" />
-      {t(badge.label)}
+      {suffix && <bdi>{suffix}</bdi>} {t(badge.label)}
     </span>
+  );
+}
+
+/** Lists how each badge is earned. */
+export function BadgeCriteria() {
+  const { t } = useI18n();
+  return (
+    <div className="rounded-2xl border bg-card p-5">
+      <h3 className="text-sm font-bold">{t("How badges are earned")}</h3>
+      <ul className="mt-3 space-y-2 text-sm">
+        {BADGE_CRITERIA.map((c) => (
+          <li key={c.label} className="flex gap-2"><span className="min-w-28 font-semibold">{t(c.label)}</span><span className="text-muted-foreground">{t(c.rule)}</span></li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
