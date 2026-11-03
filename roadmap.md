@@ -8,5 +8,5 @@
 
 # Creator search & profiles
 - [x] Top-bar creator results open a creator profile page; search narrows by niche and platform.
-- [ ] Sort creator results by match score, rate, and follower count (needs follower counts in the data).
-- [ ] Add badges for creators and brands, inspired by the uploaded reference image (not a copy).
+- [x] Sort creator results by match score, rate, and follower count (needs follower counts in the data).
+- [x] Add badges for creators and brands, inspired by the uploaded reference image (not a copy).
