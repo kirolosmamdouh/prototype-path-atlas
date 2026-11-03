@@ -4,7 +4,8 @@ import { SEED } from "@/lib/seed";
 import type { User } from "@/lib/types";
 
 const creator = (id: number, followers?: number): User => ({
-  id, name: "Test", email: "t@t.com", password: "x", role: "creator", followers,
+  id, name: "Test", email: "t@t.com", password: "x", role: "creator",
+  ...(followers !== undefined ? { followers } : {}),
 });
 const empty: typeof SEED = { ...SEED, applications: [] };
 

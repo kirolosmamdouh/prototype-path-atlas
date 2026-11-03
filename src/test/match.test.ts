@@ -96,8 +96,11 @@ describe("match sorting", () => {
   });
 
   it("puts creators with a missing value last and keeps the input untouched", () => {
-    const noRate = results.map((r) => ({ ...r, creator: { ...r.creator, rate: undefined } }));
-    noRate[0]!.creator.rate = 1000;
+    const noRate = results.map((r) => {
+      const { rate: _rate, ...c } = r.creator;
+      return { ...r, creator: c };
+    });
+    noRate[0] = { ...noRate[0]!, creator: { ...noRate[0]!.creator, rate: 1000 } };
     const sorted = sortMatches(noRate, "rate");
     expect(sorted[0]!.creator.rate).toBe(1000);
     expect(sorted.slice(1).every((r) => r.creator.rate == null)).toBe(true);
