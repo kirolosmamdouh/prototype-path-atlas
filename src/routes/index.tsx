@@ -116,7 +116,7 @@ function Landing() {
           {[["500+", "Vetted creators", "+٥٠٠"], ["EGP 2M+", "Creator earnings", "+٢ مليون ج.م"], ["94%", "Brand satisfaction", "٩٤٪"], ["< 24h", "First proposals", "أقل من ٢٤ ساعة"]].map(([v, l, va]) => (
             <div key={l} className="border-e py-8 text-center last:border-e-0">
               <p className="text-3xl font-extrabold"><bdi>{ar ? va : v}</bdi></p>
-              <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t(l)}</p>
+              <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{t(l ?? "")}</p>
             </div>
           ))}
         </div>
