@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState, type ReactNode } from "react";
 import { Search, X } from "lucide-react";
-import { Avatar, EmptyState, Field, PageHeader, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
+import { Avatar, BadgePill, EmptyState, Field, PageHeader, VerifiedBadge, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
 import { useI18n, useLocalizedFormat } from "@/lib/i18n";
+import { creatorBadges } from "@/lib/badges";
 import {
   EMPTY_FILTERS,
   PLATFORM_OPTIONS,
@@ -181,9 +182,10 @@ function AiMatch() {
                 <div key={r.creator.id} data-testid="match-row" className="flex flex-wrap items-center gap-4 rounded-2xl border bg-card p-5">
                   <Avatar name={r.creator.name} />
                   <div className="min-w-0 flex-1">
-                    <p className="font-bold">{r.creator.name} <span className="text-xs font-normal text-muted-foreground">· {t(r.creator.niche ?? "")}{r.creator.rate != null && <> · <bdi>{currency} {fmt(r.creator.rate)}</bdi></>}{r.creator.followers != null && <> · <bdi>{fmt(r.creator.followers)}</bdi> {t("Followers")}</>}</span></p>
+                    <p className="flex items-center gap-1.5 font-bold">{r.creator.name} {r.creator.verified && <VerifiedBadge />} <span className="text-xs font-normal text-muted-foreground">· {t(r.creator.niche ?? "")}{r.creator.rate != null && <> · <bdi>{currency} {fmt(r.creator.rate)}</bdi></>}{r.creator.followers != null && <> · <bdi>{fmt(r.creator.followers)}</bdi> {t("Followers")}</>}</span></p>
                     {r.creator.bio && <p className="text-sm text-muted-foreground">{r.creator.bio}</p>}
                     <div className="mt-2 flex flex-wrap gap-1.5">
+                      {creatorBadges(r.creator, store).map((b) => <BadgePill key={b.label} badge={b} />)}
                       {r.reasons.map((x) => <span key={x.label} className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold", x.good ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>{t(x.label)}</span>)}
                       {r.applied && <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary">{t("Already applied")}</span>}
                     </div>

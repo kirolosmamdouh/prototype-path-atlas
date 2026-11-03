@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MessageSquare } from "lucide-react";
-import { Avatar, EmptyState, PageHeader, btnGhost, btnPrimary } from "@/components/uc/ui";
+import { Avatar, BadgePill, EmptyState, PageHeader, VerifiedBadge, btnGhost, btnPrimary } from "@/components/uc/ui";
 import { useI18n, useLocalizedFormat } from "@/lib/i18n";
+import { creatorBadges } from "@/lib/badges";
 import { pastCollaborators } from "@/lib/match";
 import { useApp } from "@/lib/store";
 
@@ -32,7 +33,7 @@ function CreatorProfile() {
         <div className="flex flex-wrap items-start gap-5">
           <Avatar name={creator.name} className="h-20 w-20 rounded-2xl text-2xl" />
           <div className="min-w-0 flex-1">
-            <h2 className="text-2xl font-extrabold tracking-tight">{creator.name}</h2>
+            <h2 className="flex items-center gap-2 text-2xl font-extrabold tracking-tight">{creator.name} {creator.verified && <VerifiedBadge className="h-5 w-5" />}</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               {t(creator.niche ?? "")} · {t(creator.location ?? "Egypt")}
             </p>
@@ -41,6 +42,7 @@ function CreatorProfile() {
               {(creator.platforms ?? []).map((p) => (
                 <span key={p} className="rounded-md bg-muted px-2.5 py-1 text-xs font-semibold">{t(p)}</span>
               ))}
+              {creatorBadges(creator, store).map((b) => <BadgePill key={b.label} badge={b} />)}
             </div>
           </div>
           <Link to="/app/messages" className={btnPrimary}>
