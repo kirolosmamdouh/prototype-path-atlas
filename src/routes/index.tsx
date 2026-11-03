@@ -1,5 +1,6 @@
 import { LanguageToggle } from "@/components/uc/LanguageToggle";
 import { VerifiedBadge } from "@/components/uc/ui";
+import { ReelShowcase } from "@/components/uc/ReelShowcase";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
@@ -109,6 +110,8 @@ function Landing() {
           </div>
         </div>
       </section>
+
+      <ReelShowcase />
 
       {/* Stats */}
       <section className="mt-10 border-y bg-card">
