@@ -6,10 +6,10 @@ const daysAhead = (d: number) => new Date(Date.now() + d * 86400000).toISOString
 // Demo data so every screen has something to show. Demo password for all: "demo1234".
 export const SEED: Store = {
   users: [
-    { id: 1, name: "Nile Cosmetics", email: "brand@demo.com", password: "demo1234", role: "brand", company: "Nile Cosmetics", location: "Egypt" },
-    { id: 2, name: "Salma Hassan", email: "creator@demo.com", password: "demo1234", role: "creator", niche: "Beauty", location: "Egypt", bio: "Beauty & skincare reels for Gen Z in Cairo.", platforms: ["TikTok", "Instagram"], rate: 4000, followers: 120000 },
+    { id: 1, name: "Nile Cosmetics", email: "brand@demo.com", password: "demo1234", role: "brand", company: "Nile Cosmetics", location: "Egypt", verified: true },
+    { id: 2, name: "Salma Hassan", email: "creator@demo.com", password: "demo1234", role: "creator", niche: "Beauty", location: "Egypt", bio: "Beauty & skincare reels for Gen Z in Cairo.", platforms: ["TikTok", "Instagram"], rate: 4000, followers: 120000, verified: true },
     { id: 3, name: "Omar Fathy", email: "omar@demo.com", password: "demo1234", role: "creator", niche: "Tech", location: "Egypt", bio: "Unboxings and honest gadget reviews.", platforms: ["YouTube", "TikTok"], rate: 3800, followers: 85000 },
-    { id: 5, name: "Nour Adel", email: "nour@demo.com", password: "demo1234", role: "creator", niche: "Fashion", location: "Egypt", bio: "Street style, outfit transitions and sneaker reviews around Cairo.", platforms: ["Instagram", "TikTok"], rate: 5000, followers: 210000 },
+    { id: 5, name: "Nour Adel", email: "nour@demo.com", password: "demo1234", role: "creator", niche: "Fashion", location: "Egypt", bio: "Street style, outfit transitions and sneaker reviews around Cairo.", platforms: ["Instagram", "TikTok"], rate: 5000, followers: 210000, verified: true },
     { id: 6, name: "Karim Said", email: "karim@demo.com", password: "demo1234", role: "creator", niche: "Fitness", location: "Egypt", bio: "Gym routines, workout POVs and healthy lifestyle tips.", platforms: ["YouTube", "Instagram"], rate: 4500, followers: 95000 },
     { id: 4, name: "Cairo Kicks", email: "kicks@demo.com", password: "demo1234", role: "brand", company: "Cairo Kicks", location: "Egypt" },
   ],
