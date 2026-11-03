@@ -41,7 +41,7 @@ export function ReelShowcase() {
             </div>
           </div>
           {[0, 1].map((slot) => {
-            const s = stats[(active + slot * 2) % stats.length];
+            const s = stats[(active + slot * 2) % stats.length]!;
             return (
               <div key={`${active}-${slot}`} className={`absolute animate-in fade-in zoom-in-90 duration-500 rounded-xl border bg-card/90 px-3 py-2 shadow-brand backdrop-blur ${slot ? "-end-14 top-24" : "-start-16 bottom-28"}`}>
                 <p className="text-xl font-extrabold text-primary"><bdi>{ar ? s[2] : s[0]}</bdi></p>
