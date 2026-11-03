@@ -97,7 +97,8 @@ describe("match sorting", () => {
 
   it("puts creators with a missing value last and keeps the input untouched", () => {
     const noRate = results.map((r) => {
-      const { rate: _rate, ...c } = r.creator;
+      const { rate: _rate, ...rest } = r.creator;
+      const c: User = rest;
       return { ...r, creator: c };
     });
     noRate[0] = { ...noRate[0]!, creator: { ...noRate[0]!.creator, rate: 1000 } };
