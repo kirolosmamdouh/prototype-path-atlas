@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MessageSquare } from "lucide-react";
-import { Avatar, BadgePill, EmptyState, PageHeader, VerifiedBadge, btnGhost, btnPrimary } from "@/components/uc/ui";
+import { Avatar, BadgeCriteria, BadgePill, EmptyState, PageHeader, VerifiedBadge, btnGhost, btnPrimary } from "@/components/uc/ui";
 import { useI18n, useLocalizedFormat } from "@/lib/i18n";
-import { creatorBadges } from "@/lib/badges";
+import { JOB_SUCCESS_MIN, creatorBadges, jobSuccess } from "@/lib/badges";
 import { pastCollaborators } from "@/lib/match";
 import { useApp } from "@/lib/store";
 
@@ -24,6 +24,7 @@ function CreatorProfile() {
         action={<Link to="/app" className={btnGhost}>{t("Back to dashboard")}</Link>} /></>);
   }
 
+  const js = jobSuccess(creator.id, store);
   const collab = user ? pastCollaborators(user.id, store).find((c) => c.creator.id === creator.id) : undefined;
 
   return (
@@ -42,6 +43,7 @@ function CreatorProfile() {
               {(creator.platforms ?? []).map((p) => (
                 <span key={p} className="rounded-md bg-muted px-2.5 py-1 text-xs font-semibold">{t(p)}</span>
               ))}
+              {js != null && js >= JOB_SUCCESS_MIN && <BadgePill badge={{ label: "Job Success", icon: "crown", tone: "brand" }} suffix={`${js}%`} />}
               {creatorBadges(creator, store).map((b) => <BadgePill key={b.label} badge={b} />)}
             </div>
           </div>
@@ -71,6 +73,7 @@ function CreatorProfile() {
           </p>
         )}
       </div>
+      <div className="mt-6"><BadgeCriteria /></div>
     </>
   );
 }

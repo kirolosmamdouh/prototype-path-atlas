@@ -6,6 +6,7 @@ import { EMPTY_CREATOR_SEARCH, PLATFORM_OPTIONS, creatorNiches, searchCreators }
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { VerifiedBadge } from "@/components/uc/ui";
+import { BADGE_CRITERIA, EMPTY_BADGE_FILTERS, filterByBadges, type BadgeFilters } from "@/lib/badges";
 
 const chip = (active: boolean) =>
   cn("rounded-full px-2.5 py-0.5 text-xs font-bold transition", active ? "bg-primary text-primary-foreground" : "bg-muted hover:opacity-80");
@@ -16,17 +17,18 @@ export function TopBar() {
   const [q, setQ] = useState("");
   const [niche, setNiche] = useState(EMPTY_CREATOR_SEARCH.niche);
   const [platform, setPlatform] = useState(EMPTY_CREATOR_SEARCH.platform);
+  const [badges, setBadges] = useState<BadgeFilters>(EMPTY_BADGE_FILTERS);
   if (!user) return null;
 
   const term = q.trim().toLowerCase();
   const isBrand = user.role === "brand";
   const campaigns = term ? store.campaigns.filter((c) => (isBrand ? c.userId === user.id : c.status === "open") && c.title.toLowerCase().includes(term)).slice(0, 5) : [];
-  const creators = term && isBrand ? searchCreators(store.users, { q, niche, platform }).slice(0, 5) : [];
+  const creators = term && isBrand ? filterByBadges(searchCreators(store.users, { q, niche, platform }), store, badges).slice(0, 5) : [];
   const niches = isBrand ? creatorNiches(store.users) : [];
   const unread = store.messages.filter((m) => m.receiverId === user.id && !m.isRead).length;
   const notifs = store.notifications.filter((n) => n.userId === user.id && !n.read).length;
   const dot = (n: number) => n > 0 && <span className="absolute -end-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-pink px-1 text-[10px] font-bold text-pink-foreground">{n}</span>;
-  const reset = () => { setQ(""); setNiche(EMPTY_CREATOR_SEARCH.niche); setPlatform(EMPTY_CREATOR_SEARCH.platform); };
+  const reset = () => { setQ(""); setNiche(EMPTY_CREATOR_SEARCH.niche); setPlatform(EMPTY_CREATOR_SEARCH.platform); setBadges(EMPTY_BADGE_FILTERS); };
 
   return (
     <div className="flex items-center gap-2">
@@ -51,6 +53,14 @@ export function TopBar() {
                     <button key={p} type="button" aria-pressed={platform === p} onMouseDown={(e) => e.preventDefault()} onClick={() => setPlatform(p)} className={chip(platform === p)}>{t(p)}</button>
                   ))}
                 </div>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-xs font-semibold text-muted-foreground">{t("Badges")}:</span>
+                  {([["verified", "Verified"], ["topRated", "Top Rated"], ["jobSuccess", "Job Success"]] as const).map(([k, label]) => (
+                    <button key={k} type="button" aria-pressed={badges[k]} title={t(BADGE_CRITERIA.find((c) => c.label === label)!.rule)}
+                      onMouseDown={(e) => e.preventDefault()} onClick={() => setBadges((b) => ({ ...b, [k]: !b[k] }))} className={chip(badges[k])}>{t(label)}</button>
+                  ))}
+                </div>
+                <p className="text-[11px] text-muted-foreground">{t("Top Rated: 100k+ followers · Job Success: 90%+ proposals accepted")}</p>
               </div>
             )}
             {!campaigns.length && !creators.length && <p className="p-3 text-sm text-muted-foreground">{t("No results")}</p>}
