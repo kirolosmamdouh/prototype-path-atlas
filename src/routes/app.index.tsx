@@ -6,6 +6,19 @@ import { BrandOverview } from "@/components/uc/BrandOverview";
 import { Avatar, EmptyState, PageHeader, StatCard, StatusBadge, btnPrimary } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 import type { Store, User } from "@/lib/types";
+import { profileCompletion } from "@/lib/profile";
+
+function ProfileNudge({ user }: { user: User }) {
+  const { t } = useI18n();
+  const pct = profileCompletion(user);
+  if (pct >= 100) return null;
+  return (
+    <Link to="/app/profile" className="mb-6 flex items-center justify-between gap-4 rounded-2xl border bg-card p-4 hover:bg-muted">
+      <span className="text-sm font-semibold">{t("Complete your profile")}</span>
+      <span className="flex items-center gap-3"><span className="h-2 w-32 overflow-hidden rounded-full bg-muted"><span className="block h-full bg-primary" style={{ width: `${pct}%` }} /></span><bdi className="text-xs font-bold">{pct}%</bdi></span>
+    </Link>
+  );
+}
 
 export const Route = createFileRoute("/app/")({
   head: () => ({ meta: [{"title": "Dashboard \u2014 UpCreator"}, {"name": "description", "content": "Dashboard in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:title", "content": "Dashboard \u2014 UpCreator"}, {"property": "og:description", "content": "Dashboard in UpCreator, the Egyptian brand and creator marketplace."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
@@ -32,6 +45,7 @@ function BrandDashboard({ user, store }: { user: User; store: Store }) {
     <>
       <PageHeader title={`${t("Welcome back,")} ${user.name}`} subtitle={t("Here's what's happening with your campaigns.")}
         action={<Link to="/app/campaigns/new" className={btnPrimary}>{t("\uff0b Post a campaign")}</Link>} />
+      <ProfileNudge user={user} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard accent label={t("Active campaigns")} value={mine.filter((c) => c.status !== "closed").length} />
         <StatCard label={t("Total proposals")} value={apps.length} />
@@ -55,6 +69,7 @@ function CreatorDashboard({ user, store }: { user: User; store: Store }) {
     <>
       <PageHeader title={`${language === "ar" ? "مرحبًا،" : "Welcome,"} ${user.name.split(" ")[0]} ✨`} subtitle={t("Find your next brand deal.")}
         action={<Link to="/app/campaigns" className={btnPrimary}>{t("Browse campaigns")}</Link>} />
+      <ProfileNudge user={user} />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard accent label={t("Earnings")} value={`${currency} ${fmt(earned)}`} sub="From accepted deals" />
         <StatCard label={t("Proposals sent")} value={apps.length} />

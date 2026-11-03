@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { StoreProvider } from "@/lib/store";
+import { Toaster } from "@/components/ui/sonner";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -133,6 +134,7 @@ function RootComponent() {
       <I18nProvider>
         <StoreProvider>
           <Outlet />
+          <Toaster />
         </StoreProvider>
       </I18nProvider>
     </QueryClientProvider>
