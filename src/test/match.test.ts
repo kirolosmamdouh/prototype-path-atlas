@@ -75,7 +75,35 @@ describe("match filters", () => {
   });
 });
 
-import { EMPTY_CREATOR_SEARCH, pastCollaborators, personalizedCreators, searchCreators } from "@/lib/match";
+import { EMPTY_CREATOR_SEARCH, pastCollaborators, personalizedCreators, searchCreators, sortMatches } from "@/lib/match";
+
+describe("match sorting", () => {
+  const results = matchCreators(serum, SEED);
+  const names = (sort: "score" | "rate" | "followers") => sortMatches(results, sort).map((r) => r.creator.name);
+
+  it("sorts by match score, best first", () => {
+    const r = sortMatches(results, "score");
+    for (let i = 1; i < r.length; i++) expect(r[i - 1]!.score).toBeGreaterThanOrEqual(r[i]!.score);
+    expect(r[0]!.creator.name).toBe("Salma Hassan");
+  });
+
+  it("sorts by rate, cheapest first", () => {
+    expect(names("rate")).toEqual(["Omar Fathy", "Salma Hassan", "Karim Said", "Nour Adel"]);
+  });
+
+  it("sorts by follower count, biggest first", () => {
+    expect(names("followers")).toEqual(["Nour Adel", "Salma Hassan", "Karim Said", "Omar Fathy"]);
+  });
+
+  it("puts creators with a missing value last and keeps the input untouched", () => {
+    const noRate = results.map((r) => ({ ...r, creator: { ...r.creator, rate: undefined } }));
+    noRate[0]!.creator.rate = 1000;
+    const sorted = sortMatches(noRate, "rate");
+    expect(sorted[0]!.creator.rate).toBe(1000);
+    expect(sorted.slice(1).every((r) => r.creator.rate == null)).toBe(true);
+    expect(results.every((r) => r.creator.rate != null)).toBe(true);
+  });
+});
 
 describe("creator search", () => {
   it("finds creators by name, ignoring case and stray spaces", () => {

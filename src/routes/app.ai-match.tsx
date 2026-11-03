@@ -11,7 +11,9 @@ import {
   isFiltered,
   matchCreators,
   rateCeiling,
+  sortMatches,
   type MatchFilters,
+  type MatchSort,
 } from "@/lib/match";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -20,6 +22,12 @@ export const Route = createFileRoute("/app/ai-match")({
   head: () => ({ meta: [{ title: "AI Creator Match — UpCreator" }, { name: "description", content: "Find the Egyptian creators who best fit your campaign brief." }, { property: "og:title", content: "AI Creator Match — UpCreator" }, { property: "og:description", content: "Find the Egyptian creators who best fit your campaign brief." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: AiMatch,
 });
+
+const SORT_OPTIONS: { value: MatchSort; label: string }[] = [
+  { value: "score", label: "Match score" },
+  { value: "rate", label: "Rate" },
+  { value: "followers", label: "Followers" },
+];
 
 const SCORE_OPTIONS = [
   { value: 0, label: "Any" },
@@ -60,13 +68,14 @@ function AiMatch() {
   const mine = store.campaigns.filter((c) => c.userId === user?.id && c.status !== "closed");
   const [id, setId] = useState<number | null>(null);
   const [filters, setFilters] = useState<MatchFilters>(EMPTY_FILTERS);
+  const [sort, setSort] = useState<MatchSort>("score");
   const campaign = mine.find((c) => c.id === id) ?? mine[0];
 
   const patch = (next: Partial<MatchFilters>) => setFilters((prev) => ({ ...prev, ...next }));
   const results = useMemo(() => (campaign ? matchCreators(campaign, store) : []), [campaign, store]);
   const niches = useMemo(() => ["All", ...creatorNiches(store.users)], [store.users]);
   const ceiling = useMemo(() => (campaign ? rateCeiling(results, campaign.budget) : 500), [campaign, results]);
-  const shown = useMemo(() => filterMatches(results, filters), [results, filters]);
+  const shown = useMemo(() => sortMatches(filterMatches(results, filters), sort), [results, filters, sort]);
 
   if (!campaign) {
     return (<><PageHeader title="AI Creator Match" />
@@ -145,6 +154,13 @@ function AiMatch() {
             </div>
           </Group>
         </div>
+
+        <div className="mt-5 flex flex-wrap items-center gap-1.5 border-t pt-4">
+          <span className="me-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{t("Sort by")}</span>
+          {SORT_OPTIONS.map((o) => (
+            <Chip key={o.value} active={sort === o.value} onClick={() => setSort(o.value)}>{t(o.label)}</Chip>
+          ))}
+        </div>
       </div>
 
       {results.length === 0 ? (
@@ -165,7 +181,7 @@ function AiMatch() {
                 <div key={r.creator.id} data-testid="match-row" className="flex flex-wrap items-center gap-4 rounded-2xl border bg-card p-5">
                   <Avatar name={r.creator.name} />
                   <div className="min-w-0 flex-1">
-                    <p className="font-bold">{r.creator.name} <span className="text-xs font-normal text-muted-foreground">· {t(r.creator.niche ?? "")}{r.creator.rate != null && <> · <bdi>{currency} {fmt(r.creator.rate)}</bdi></>}</span></p>
+                    <p className="font-bold">{r.creator.name} <span className="text-xs font-normal text-muted-foreground">· {t(r.creator.niche ?? "")}{r.creator.rate != null && <> · <bdi>{currency} {fmt(r.creator.rate)}</bdi></>}{r.creator.followers != null && <> · <bdi>{fmt(r.creator.followers)}</bdi> {t("Followers")}</>}</span></p>
                     {r.creator.bio && <p className="text-sm text-muted-foreground">{r.creator.bio}</p>}
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {r.reasons.map((x) => <span key={x.label} className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold", x.good ? "bg-success/10 text-success" : "bg-destructive/10 text-destructive")}>{t(x.label)}</span>)}

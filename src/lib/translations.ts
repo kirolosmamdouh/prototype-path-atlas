@@ -225,5 +225,7 @@ export const arabic: Record<string, string> = {
   "View campaign": "عرض الحملة",
   "Creator profile": "الملف الشخصي لصانع المحتوى",
   "Creator not found": "صانع المحتوى غير موجود",
-  "Jobs together": "أعمال معًا"
+  "Jobs together": "أعمال معًا",
+  "Sort by": "ترتيب حسب",
+  "Followers": "متابعون"
 };

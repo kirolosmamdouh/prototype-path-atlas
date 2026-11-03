@@ -48,10 +48,14 @@ function CreatorProfile() {
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-md">
+        <div className="mt-8 grid grid-cols-2 gap-4 sm:max-w-lg sm:grid-cols-3">
           <div className="rounded-2xl border p-4 text-center">
             <p className="text-xl font-extrabold">{creator.rate != null ? <bdi>{currency} {fmt(creator.rate)}</bdi> : "—"}</p>
             <p className="mt-1 text-xs text-muted-foreground">{t("Rate")}</p>
+          </div>
+          <div className="rounded-2xl border p-4 text-center">
+            <p className="text-xl font-extrabold">{creator.followers != null ? <bdi>{fmt(creator.followers)}</bdi> : "—"}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{t("Followers")}</p>
           </div>
           <div className="rounded-2xl border p-4 text-center">
             <p className="text-xl font-extrabold"><bdi>{fmt(collab?.jobs ?? 0)}</bdi></p>
