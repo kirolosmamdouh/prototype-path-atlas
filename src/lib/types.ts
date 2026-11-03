@@ -12,6 +12,8 @@ export interface User {
   bio?: string;
   platforms?: ("TikTok" | "Instagram" | "YouTube")[];
   rate?: number;
+  followers?: number;
+  verified?: boolean;
 }
 
 export type CampaignStatus = "draft" | "open" | "in_progress" | "closed";

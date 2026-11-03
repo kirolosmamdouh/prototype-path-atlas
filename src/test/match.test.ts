@@ -1,3 +1,4 @@
+import type { User } from "@/lib/types";
 import { describe, expect, it } from "vitest";
 import { EMPTY_FILTERS, creatorNiches, filterMatches, isFiltered, matchCreators, rateCeiling, scoreCreator } from "@/lib/match";
 import { SEED } from "@/lib/seed";
@@ -75,7 +76,59 @@ describe("match filters", () => {
   });
 });
 
-import { pastCollaborators, personalizedCreators } from "@/lib/match";
+import { EMPTY_CREATOR_SEARCH, pastCollaborators, personalizedCreators, searchCreators, sortMatches } from "@/lib/match";
+
+describe("match sorting", () => {
+  const results = matchCreators(serum, SEED);
+  const names = (sort: "score" | "rate" | "followers") => sortMatches(results, sort).map((r) => r.creator.name);
+
+  it("sorts by match score, best first", () => {
+    const r = sortMatches(results, "score");
+    for (let i = 1; i < r.length; i++) expect(r[i - 1]!.score).toBeGreaterThanOrEqual(r[i]!.score);
+    expect(r[0]!.creator.name).toBe("Salma Hassan");
+  });
+
+  it("sorts by rate, cheapest first", () => {
+    expect(names("rate")).toEqual(["Omar Fathy", "Salma Hassan", "Karim Said", "Nour Adel"]);
+  });
+
+  it("sorts by follower count, biggest first", () => {
+    expect(names("followers")).toEqual(["Nour Adel", "Salma Hassan", "Karim Said", "Omar Fathy"]);
+  });
+
+  it("puts creators with a missing value last and keeps the input untouched", () => {
+    const noRate = results.map((r) => {
+      const { rate: _rate, ...rest } = r.creator;
+      const c: User = rest;
+      return { ...r, creator: c };
+    });
+    noRate[0] = { ...noRate[0]!, creator: { ...noRate[0]!.creator, rate: 1000 } };
+    const sorted = sortMatches(noRate, "rate");
+    expect(sorted[0]!.creator.rate).toBe(1000);
+    expect(sorted.slice(1).every((r) => r.creator.rate == null)).toBe(true);
+    expect(results.every((r) => r.creator.rate != null)).toBe(true);
+  });
+});
+
+describe("creator search", () => {
+  it("finds creators by name, ignoring case and stray spaces", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, q: " salma " }).map((u) => u.name)).toEqual(["Salma Hassan"]);
+  });
+  it("never returns brands", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, q: "cairo" })).toEqual([]);
+  });
+  it("narrows by niche", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, niche: "Fashion" }).map((u) => u.name)).toEqual(["Nour Adel"]);
+  });
+  it("narrows by platform", () => {
+    const r = searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, platform: "YouTube" });
+    expect(r.map((u) => u.name).sort()).toEqual(["Karim Said", "Omar Fathy"]);
+  });
+  it("combines name, niche and platform", () => {
+    expect(searchCreators(SEED.users, { q: "a", niche: "Tech", platform: "TikTok" }).map((u) => u.name)).toEqual(["Omar Fathy"]);
+    expect(searchCreators(SEED.users, { q: "a", niche: "Tech", platform: "Instagram" })).toEqual([]);
+  });
+});
 import { SEED as SEED2 } from "@/lib/seed";
 describe("brand overview", () => {
   it("lists past collaborators only from accepted proposals on the brand's campaigns", () => {

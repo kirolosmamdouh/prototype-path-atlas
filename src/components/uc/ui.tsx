@@ -1,6 +1,8 @@
 import { useI18n } from "@/lib/i18n";
 import type { ReactNode } from "react";
+import { BadgeCheck, Briefcase, Crown, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { Badge, BadgeIcon } from "@/lib/badges";
 import type { ApplicationStatus, CampaignStatus } from "@/lib/types";
 
 export function PageHeader({ title, subtitle, action }: { title: string; subtitle?: string; action?: ReactNode }) {
@@ -73,6 +75,26 @@ export function Field({ label, children, error }: { label: string; children: Rea
       {children}
       {error && <span className="mt-1 block text-xs text-destructive">{t(error)}</span>}
     </label>
+  );
+}
+
+/** Blue check shown next to verified creator and brand names. */
+export function VerifiedBadge({ className }: { className?: string }) {
+  const { t } = useI18n();
+  return <BadgeCheck className={cn("inline h-4 w-4 shrink-0 text-primary", className)} aria-label={t("Verified")} />;
+}
+
+const BADGE_ICONS: Record<BadgeIcon, typeof Crown> = { crown: Crown, star: Star, briefcase: Briefcase };
+
+/** Achievement pill, e.g. "Top Rated" or "Active Hirer". */
+export function BadgePill({ badge }: { badge: Badge }) {
+  const { t } = useI18n();
+  const Icon = BADGE_ICONS[badge.icon];
+  return (
+    <span className={cn("inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold", badge.tone === "brand" ? "bg-primary/10 text-primary" : "bg-pink/10 text-pink")}>
+      <Icon className="h-3.5 w-3.5" />
+      {t(badge.label)}
+    </span>
   );
 }
 

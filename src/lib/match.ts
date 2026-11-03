@@ -66,6 +66,42 @@ export function filterMatches(results: MatchResult[], f: MatchFilters): MatchRes
   });
 }
 
+/** Result ordering: best match first, cheapest rate first, or biggest audience first. Missing values sort last. */
+export type MatchSort = "score" | "rate" | "followers";
+
+export function sortMatches(results: MatchResult[], sort: MatchSort): MatchResult[] {
+  const key = (r: MatchResult) =>
+    sort === "score" ? r.score : sort === "rate" ? r.creator.rate : r.creator.followers;
+  return [...results].sort((a, b) => {
+    const ka = key(a);
+    const kb = key(b);
+    if (ka == null && kb == null) return b.score - a.score;
+    if (ka == null) return 1;
+    if (kb == null) return -1;
+    return sort === "rate" ? ka - kb : (kb as number) - (ka as number);
+  });
+}
+
+/** Top-bar creator search: name text plus niche and platform narrowing. */
+export interface CreatorSearch {
+  q: string;
+  niche: string;
+  platform: string;
+}
+
+export const EMPTY_CREATOR_SEARCH: CreatorSearch = { q: "", niche: "All", platform: "All" };
+
+export function searchCreators(users: User[], f: CreatorSearch): User[] {
+  const q = f.q.trim().toLowerCase();
+  return users.filter((u) => {
+    if (u.role !== "creator") return false;
+    if (q && !u.name.toLowerCase().includes(q)) return false;
+    if (f.niche !== "All" && u.niche !== f.niche) return false;
+    if (f.platform !== "All" && !(u.platforms ?? []).includes(f.platform as Platform)) return false;
+    return true;
+  });
+}
+
 /** Niches that actually have a creator, so the filter never offers an empty choice. */
 export function creatorNiches(users: User[]): string[] {
   const niches = new Set<string>();
