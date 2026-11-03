@@ -28,6 +28,7 @@ import { Route as AppTalentRouteImport } from './routes/app.talent'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
+import { Route as AppCreatorsIdRouteImport } from './routes/app.creators.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -124,6 +125,11 @@ const AppCampaignsNewRoute = AppCampaignsNewRouteImport.update({
   path: '/campaigns/new',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCreatorsIdRoute = AppCreatorsIdRouteImport.update({
+  id: '/creators/$id',
+  path: '/creators/$id',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/app': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/campaigns': typeof AppCampaignsIndexRoute
 }
 export interface FileRoutesById {
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
+  '/app/creators/$id': typeof AppCreatorsIdRoute
   '/app/campaigns/': typeof AppCampaignsIndexRoute
 }
 export interface FileRouteTypes {
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creators/$id'
     | '/app/campaigns/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creators/$id'
     | '/app/campaigns'
   id:
     | '__root__'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
+    | '/app/creators/$id'
     | '/app/campaigns/'
   fileRoutesById: FileRoutesById
 }
@@ -396,6 +408,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCampaignsNewRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/creators/$id': {
+      id: '/app/creators/$id'
+      path: '/creators/$id'
+      fullPath: '/app/creators/$id'
+      preLoaderRoute: typeof AppCreatorsIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -413,6 +432,7 @@ interface AppRouteChildren {
   AppIndexRoute: typeof AppIndexRoute
   AppCampaignsIdRoute: typeof AppCampaignsIdRoute
   AppCampaignsNewRoute: typeof AppCampaignsNewRoute
+  AppCreatorsIdRoute: typeof AppCreatorsIdRoute
   AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
 }
 
@@ -430,6 +450,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppIndexRoute: AppIndexRoute,
   AppCampaignsIdRoute: AppCampaignsIdRoute,
   AppCampaignsNewRoute: AppCampaignsNewRoute,
+  AppCreatorsIdRoute: AppCreatorsIdRoute,
   AppCampaignsIndexRoute: AppCampaignsIndexRoute,
 }
 
