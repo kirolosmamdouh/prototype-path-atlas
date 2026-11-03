@@ -75,7 +75,27 @@ describe("match filters", () => {
   });
 });
 
-import { pastCollaborators, personalizedCreators } from "@/lib/match";
+import { EMPTY_CREATOR_SEARCH, pastCollaborators, personalizedCreators, searchCreators } from "@/lib/match";
+
+describe("creator search", () => {
+  it("finds creators by name, ignoring case and stray spaces", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, q: " salma " }).map((u) => u.name)).toEqual(["Salma Hassan"]);
+  });
+  it("never returns brands", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, q: "cairo" })).toEqual([]);
+  });
+  it("narrows by niche", () => {
+    expect(searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, niche: "Fashion" }).map((u) => u.name)).toEqual(["Nour Adel"]);
+  });
+  it("narrows by platform", () => {
+    const r = searchCreators(SEED.users, { ...EMPTY_CREATOR_SEARCH, platform: "YouTube" });
+    expect(r.map((u) => u.name).sort()).toEqual(["Karim Said", "Omar Fathy"]);
+  });
+  it("combines name, niche and platform", () => {
+    expect(searchCreators(SEED.users, { q: "a", niche: "Tech", platform: "TikTok" }).map((u) => u.name)).toEqual(["Omar Fathy"]);
+    expect(searchCreators(SEED.users, { q: "a", niche: "Tech", platform: "Instagram" })).toEqual([]);
+  });
+});
 import { SEED as SEED2 } from "@/lib/seed";
 describe("brand overview", () => {
   it("lists past collaborators only from accepted proposals on the brand's campaigns", () => {

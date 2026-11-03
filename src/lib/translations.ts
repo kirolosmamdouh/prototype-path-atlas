@@ -222,5 +222,8 @@ export const arabic: Record<string, string> = {
   "Welcome back,": "مرحبًا بعودتك،",
   "Grid view": "عرض شبكي",
   "List view": "عرض قائمة",
-  "View campaign": "عرض الحملة"
+  "View campaign": "عرض الحملة",
+  "Creator profile": "الملف الشخصي لصانع المحتوى",
+  "Creator not found": "صانع المحتوى غير موجود",
+  "Jobs together": "أعمال معًا"
 };

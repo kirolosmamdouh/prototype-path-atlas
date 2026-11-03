@@ -66,6 +66,26 @@ export function filterMatches(results: MatchResult[], f: MatchFilters): MatchRes
   });
 }
 
+/** Top-bar creator search: name text plus niche and platform narrowing. */
+export interface CreatorSearch {
+  q: string;
+  niche: string;
+  platform: string;
+}
+
+export const EMPTY_CREATOR_SEARCH: CreatorSearch = { q: "", niche: "All", platform: "All" };
+
+export function searchCreators(users: User[], f: CreatorSearch): User[] {
+  const q = f.q.trim().toLowerCase();
+  return users.filter((u) => {
+    if (u.role !== "creator") return false;
+    if (q && !u.name.toLowerCase().includes(q)) return false;
+    if (f.niche !== "All" && u.niche !== f.niche) return false;
+    if (f.platform !== "All" && !(u.platforms ?? []).includes(f.platform as Platform)) return false;
+    return true;
+  });
+}
+
 /** Niches that actually have a creator, so the filter never offers an empty choice. */
 export function creatorNiches(users: User[]): string[] {
   const niches = new Set<string>();
