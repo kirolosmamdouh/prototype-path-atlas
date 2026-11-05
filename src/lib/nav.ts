@@ -28,7 +28,7 @@ export function navItems(role: Role, store: Store, userId: number): NavItem[] {
   const unread = store.messages.filter((m) => m.receiverId === userId && !m.isRead).length;
   const notifs = store.notifications.filter((n) => n.userId === userId && !n.read).length;
   if (role === "brand") {
-    const mine = store.campaigns.filter((c) => c.userId === userId).map((c) => c.id);
+    const mine = store.campaigns.map((c) => c.id);
     const pending = store.applications.filter((a) => mine.includes(a.campaignId) && a.status === "pending").length;
     return [
       { to: "/app", label: "Home", icon: "⊞" },

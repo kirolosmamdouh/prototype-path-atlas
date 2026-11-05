@@ -11,7 +11,7 @@ function Manage() {
   const { t, language } = useI18n();
   const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
   const { user, store } = useApp();
-  const mine = store.campaigns.filter((c) => c.userId === user?.id);
+  const mine = store.campaigns;
   return (
     <>
       <PageHeader title={t("Manage work")} subtitle={t("All your campaigns and their proposals.")}

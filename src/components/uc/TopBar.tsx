@@ -22,7 +22,7 @@ export function TopBar() {
 
   const term = q.trim().toLowerCase();
   const isBrand = user.role === "brand";
-  const campaigns = term ? store.campaigns.filter((c) => (isBrand ? c.userId === user.id : c.status === "open") && c.title.toLowerCase().includes(term)).slice(0, 5) : [];
+  const campaigns = term ? store.campaigns.filter((c) => (isBrand || c.status === "open") && c.title.toLowerCase().includes(term)).slice(0, 5) : [];
   const creators = term && isBrand ? filterByBadges(searchCreators(store.users, { q, niche, platform }), store, badges).slice(0, 5) : [];
   const niches = isBrand ? creatorNiches(store.users) : [];
   const unread = store.messages.filter((m) => m.receiverId === user.id && !m.isRead).length;

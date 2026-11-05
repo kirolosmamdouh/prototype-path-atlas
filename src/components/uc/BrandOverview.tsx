@@ -45,10 +45,10 @@ export function BrandOverview({ user, store }: { user: User; store: Store }) {
   const { t } = useI18n();
   const { fmt, currency } = useLocalizedFormat();
   const [view, setView] = useState<"grid" | "list">("grid");
-  const mine = store.campaigns.filter((c) => c.userId === user.id && c.status !== "closed")
+  const mine = store.campaigns.filter((c) => c.status !== "closed")
     .sort((a, b) => (a.status === "draft" ? -1 : 0) - (b.status === "draft" ? -1 : 0) || b.createdAt.localeCompare(a.createdAt));
-  const talent = personalizedCreators(user.id, store);
-  const past = pastCollaborators(user.id, store);
+  const talent = personalizedCreators(user.id, store,8,true);
+  const past = pastCollaborators(user.id, store,true);
   const proposals = (id: number) => store.applications.filter((a) => a.campaignId === id).length;
 
   return (

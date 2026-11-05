@@ -53,7 +53,7 @@ export function StoreProvider({children}:{children:ReactNode}) {
   const logout=async()=>{await queryClient.cancelQueries();queryClient.clear();check((await supabase.auth.signOut()).error);generation.current++;setStore(EMPTY_STORE);setAuthId(null);setSignedIn(false);setWorkspaces([]);setClients([]);setSaved([]);setWorkspaceId(null);setReady(true);};
   const toggleSave=async(id:number)=>{if(!user)return;try{if(saved.includes(id))check((await supabase.from('saved_campaigns').delete().eq('user_id',user.id).eq('campaign_id',id)).error);else check((await supabase.from('saved_campaigns').insert({user_id:user.id,campaign_id:id})).error);await refresh();}catch{toast.error(t('Changes could not be saved.'));}};
   // Brand campaigns are isolated to the selected workspace; creators browse all visible campaigns.
-  const visibleStore=user?.role==='brand'?{...store,campaigns:store.campaigns.filter(c=>c.workspaceId===workspaceId)}:store;
+  const visibleStore=user?.role==='brand'?{...store,campaigns:store.campaigns.filter(c=>c.workspaceId===workspaceId),applications:store.applications.filter(a=>store.campaigns.some(c=>c.id===a.campaignId&&c.workspaceId===workspaceId))}:store;
   return <StoreContext.Provider value={{ready,signedIn,store:visibleStore,user,error,workspaces,clients,workspaceId,saved,selectWorkspace:setWorkspaceId,refresh,update,toggleSave,login,register,logout}}>{children}</StoreContext.Provider>;
 }
 export function useApp(){const ctx=useContext(StoreContext);if(!ctx)throw new Error('useApp must be used inside StoreProvider');return ctx;}
