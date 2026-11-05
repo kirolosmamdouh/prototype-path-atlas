@@ -14,6 +14,7 @@ export type AppPath =
   | "/app/notifications"
   | "/app/settings"
   | "/app/profile";
+// Workspace management uses the same brand-only permission as campaign management.
 
 export interface NavItem {
   to: AppPath;

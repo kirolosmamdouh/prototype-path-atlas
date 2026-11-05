@@ -14,26 +14,28 @@ const PLATFORMS: Campaign["platform"][] = ["TikTok", "Instagram", "YouTube", "Bo
 
 function CampaignForm() {
   const { t, language } = useI18n();
-  const { user, update } = useApp();
+  const { user, update,clients,workspaceId } = useApp();
+  const [clientBrandId,setClientBrandId]=useState('');
   const nav = useNavigate();
   const [f, setF] = useState({ title: "", description: "", niche: "Beauty", platform: "TikTok" as Campaign["platform"], budget: "", deliverables: "", deadline: "" });
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!user) return;
     let newId = 0;
-    update((s) => {
+    const result=await update((s) => {
       newId = Math.max(0, ...s.campaigns.map((c) => c.id)) + 1;
-      return { campaigns: [...s.campaigns, { id: newId, userId: user.id, ...f, budget: Number(f.budget), deadline: new Date(f.deadline).toISOString(), status: "open", createdAt: new Date().toISOString() }] };
+      return { campaigns: [...s.campaigns, { id: newId, userId: user.id,clientBrandId:clientBrandId||undefined, ...f, budget: Number(f.budget), deadline: new Date(f.deadline).toISOString(), status: "open", createdAt: new Date().toISOString() }] };
     });
-    setTimeout(() => nav({ to: "/app/campaigns/$id", params: { id: String(newId) } }), 0);
+    if(result.ok&&result.createdId)await nav({to:'/app/campaigns/$id',params:{id:String(result.createdId)}});
   };
 
   return (
     <>
       <PageHeader title={t("Post a campaign")} subtitle={t("Creators will start sending proposals right away.")} />
       <form onSubmit={submit} className="space-y-5 rounded-2xl border bg-card p-8">
+        <Field label="Client brand"><select className={inputCls} value={clientBrandId} onChange={e=>setClientBrandId(e.target.value)}><option value="">{t('Workspace brand')}</option>{clients.filter(b=>b.workspace_id===workspaceId).map(b=><option key={b.id} value={b.id}>{b.name}</option>)}</select></Field>
         <Field label={t("Campaign title")}><input className={inputCls} required value={f.title} onChange={set("title")} /></Field>
         <Field label={t("Brief")}><textarea className={inputCls} rows={5} required value={f.description} onChange={set("description")} /></Field>
         <div className="grid gap-5 sm:grid-cols-2">

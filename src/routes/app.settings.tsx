@@ -3,7 +3,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Field, PageHeader, btnGhost, btnPrimary, inputCls } from "@/components/uc/ui";
 import { useI18n, type Language } from "@/lib/i18n";
-import { SEED } from "@/lib/seed";
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
 import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/app/settings")({
@@ -15,18 +16,18 @@ const card = "rounded-2xl border bg-card p-6 space-y-4";
 
 function SettingsPage() {
   const { t, language, setLanguage } = useI18n();
-  const { user, update, logout } = useApp();
+  const { user, logout } = useApp();
   const navigate = useNavigate();
   const [cur, setCur] = useState("");
   const [next, setNext] = useState("");
   const [err, setErr] = useState<string>();
   if (!user) return null;
 
-  const changePw = (e: React.FormEvent) => {
+  const changePw = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (cur !== user.password) return setErr("Current password is incorrect.");
     if (next.length < 8) return setErr("Password must be at least 8 characters.");
-    update((s) => ({ users: s.users.map((u) => (u.id === user.id ? { ...u, password: next } : u)) }));
+    const result=await supabase.auth.updateUser({password:next,current_password:cur});
+    if(result.error)return setErr(result.error.message);
     setErr(undefined); setCur(""); setNext("");
     toast.success(t("Password updated"));
   };
@@ -47,14 +48,11 @@ function SettingsPage() {
           <h2 className="font-bold">{t("Change password")}</h2>
           <Field label="Current password"><input type="password" className={inputCls} value={cur} onChange={(e) => setCur(e.target.value)} /></Field>
           <Field label="New password" error={err}><input type="password" className={inputCls} value={next} onChange={(e) => setNext(e.target.value)} /></Field>
-          <button className={btnPrimary}>{t("Update password")}</button>
+          <Button className={btnPrimary}>{t("Update password")}</Button>
         </form>
         <section className={card}>
-          <h2 className="font-bold">{t("Demo data")}</h2>
-          <p className="text-sm text-muted-foreground">{t("Reset all demo data to the original sample.")}</p>
           <div className="flex flex-wrap gap-3">
-            <button type="button" className={btnGhost} onClick={() => { update(() => SEED); toast.success(t("Saved")); }}>{t("Reset demo data")}</button>
-            <button type="button" className={btnGhost} onClick={() => { logout(); navigate({ to: "/login" }); }}>{t("Log out")}</button>
+            <Button type="button" variant="outline" onClick={async () => { await logout(); await navigate({ to: "/login",replace:true }); }}>{t("Log out")}</Button>
           </div>
         </section>
       </div>

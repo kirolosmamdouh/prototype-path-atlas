@@ -4,6 +4,7 @@ import { ReelShowcase } from "@/components/uc/ReelShowcase";
 import { useI18n } from "@/lib/i18n";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useApp } from '@/lib/store';
 import { Logo } from "@/components/uc/Logo";
 import { cn } from "@/lib/utils";
 import { ArrowRight, ArrowUpRight, Briefcase, Check, MapPin, Play, Search, Sparkles, Star, Users, Wand2 } from "lucide-react";
@@ -46,6 +47,7 @@ const campaigns = [
 ];
 
 function Landing() {
+  const {signedIn}=useApp();
   const { t, language } = useI18n();
   const ar = language === "ar";
   const L = (p: string[]) => (ar ? p[1] : p[0]);
@@ -65,9 +67,9 @@ function Landing() {
         </div>
         <div className="flex items-center gap-2">
           <LanguageToggle />
-          <Link to="/login" className="hidden px-3 py-2 text-sm font-medium sm:inline">{t("Log in")}</Link>
-          <Link to="/register" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-brand">
-            {ar ? "ابدأ الآن" : "Get started"} <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" />
+          <Link to={signedIn?'/app':'/login'} className="hidden px-3 py-2 text-sm font-medium sm:inline">{t(signedIn?'Home':"Log in")}</Link>
+          <Link to={signedIn?'/app':'/register'} className="inline-flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-brand">
+            {signedIn?t('Workspace'):ar ? "ابدأ الآن" : "Get started"} <ArrowUpRight className="h-4 w-4 rtl:-scale-x-100" />
           </Link>
         </div>
       </nav>
