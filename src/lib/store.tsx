@@ -10,7 +10,7 @@ interface Ctx {
   ready:boolean; signedIn:boolean; store:Store; user:User|null; error:string|null;
   workspaces:Workspace[]; clients:ClientBrand[]; workspaceId:string|null; saved:number[];
   selectWorkspace:(id:string)=>void; refresh:()=>Promise<void>;
-  update:(fn:(s:Store)=>Partial<Store>)=>Promise<{ok:boolean;createdId?:number}>;
+  update:(fn:(s:Store)=>Partial<Store>)=>Promise<{ok:boolean;createdId?:number | undefined}>;
   toggleSave:(id:number)=>Promise<void>;
   login:(email:string,password:string)=>Promise<string|null>;
   register:(data:{name:string;email:string;password:string;role:Role})=>Promise<string|null>;
@@ -43,7 +43,7 @@ export function StoreProvider({children}:{children:ReactNode}) {
   useEffect(()=>{
     localStorage.removeItem('uc_store_v1');localStorage.removeItem('uc_session');localStorage.removeItem('uc-saved-campaigns');
     void refresh();
-    const {data}=supabase.auth.onAuthStateChange(event=>{if(['SIGNED_IN','SIGNED_OUT','USER_UPDATED','PASSWORD_RECOVERY'].includes(event)) {setReady(false);setStore(EMPTY_STORE);void refresh();}});
+    const {data}=supabase.auth.onAuthStateChange(event=>{if(['SIGNED_IN','SIGNED_OUT','USER_UPDATED','PASSWORD_RECOVERY'].includes(event)) {setReady(false);setStore(EMPTY_STORE);setTimeout(()=>void refresh(),0);}});
     return()=>{data.subscription.unsubscribe();generation.current++;};
   },[refresh]);
   const user=store.users.find(u=>u.authId===authId)??null;

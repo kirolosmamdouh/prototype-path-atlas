@@ -15,6 +15,13 @@
       "when": 1793879263408,
       "tag": "0001_private_files_access",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793879298698,
+      "tag": "0002_restrict_function_execution",
+      "breakpoints": true
     }
   ]
 }

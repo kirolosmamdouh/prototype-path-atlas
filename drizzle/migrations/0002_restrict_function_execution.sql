@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.my_profile_id(),public.my_role(),public.is_workspace_member(uuid),public.complete_onboarding(text,text,text,boolean),public.create_workspace(text,boolean),public.add_workspace_member(uuid,bigint),public.create_account_profile(),public.application_notification(),public.validate_campaign_client() FROM anon;
+REVOKE EXECUTE ON FUNCTION public.create_account_profile(),public.application_notification(),public.validate_campaign_client() FROM authenticated;

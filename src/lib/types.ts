@@ -6,13 +6,13 @@ export interface User {
   email: string;
   password?: string;
   role: Role;
-  company?: string;
-  niche?: string;
-  location?: string;
-  bio?: string;
+  company?: string | undefined;
+  niche?: string | undefined;
+  location?: string | undefined;
+  bio?: string | undefined;
   platforms?: ("TikTok" | "Instagram" | "YouTube")[];
-  rate?: number;
-  followers?: number;
+  rate?: number | undefined;
+  followers?: number | undefined;
   verified?: boolean;
   authId?: string;
 }
@@ -32,7 +32,7 @@ export interface Campaign {
   status: CampaignStatus;
   createdAt: string;
   workspaceId?: string;
-  clientBrandId?: string;
+  clientBrandId?: string | undefined;
 }
 
 export type ApplicationStatus = "pending" | "accepted" | "rejected";
