@@ -7,6 +7,7 @@ import { Field, btnPrimary, inputCls } from "@/components/uc/ui";
 import { useApp } from "@/lib/store";
 import type { Role } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { SocialSignIn } from '@/components/uc/SocialSignIn';
 
 export const Route = createFileRoute("/register")({
   validateSearch: (s: Record<string, unknown>): { role?: Role } =>
@@ -39,12 +40,15 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [busy,setBusy]=useState(false),[sent,setSent]=useState(false);
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
-    const err = register({ name, email, password, role });
+    setBusy(true);
+    const err = await register({ name, email, password, role });
+    setBusy(false);
     if (err) return setError(err);
-    nav({ to: "/app" });
+    setSent(true);
   };
 
   return (
@@ -60,13 +64,14 @@ function Register() {
           </Button>
         ))}
       </div>
-      <form onSubmit={submit} className="space-y-4">
+      {sent ? <p role="status" className="rounded-lg bg-success/10 p-4 text-success">{t('Check your email to confirm your account, then log in to finish setup.')}</p> : <form onSubmit={submit} className="space-y-4">
         <Field label={t(role === "brand" ? "Brand name" : "Full name")}><input className={inputCls} required value={name} onChange={(e) => setName(e.target.value)} /></Field>
         <Field label={t("Email")}><input className={inputCls} type="email" dir="ltr" required value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
         <Field label={t("Password")}><input className={inputCls} type="password" dir="ltr" required minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} /></Field>
         {error && <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{t(error)}</p>}
-        <Button variant="ghost" className={`${btnPrimary} w-full`}>{language === "ar" ? `إنشاء حساب ${t(role)}` : `Create ${role} account`}</Button>
-      </form>
+        <Button disabled={busy} variant="ghost" className={`${btnPrimary} w-full`}>{language === "ar" ? `إنشاء حساب ${t(role)}` : `Create ${role} account`}</Button>
+      </form>}
+      <SocialSignIn />
       <p className="mt-6 text-center text-sm text-muted-foreground">
         {t("Already have an account?")} <Link to="/login" className="font-bold text-primary">{t("Log in")}</Link>
       </p>

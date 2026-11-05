@@ -1,0 +1,12 @@
+import { createFileRoute,Link } from '@tanstack/react-router';
+import { useEffect,useState } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { AuthShell } from '@/components/uc/AuthShell';
+import { Field,inputCls } from '@/components/uc/ui';
+import { useI18n } from '@/lib/i18n';
+
+export const Route=createFileRoute('/reset-password')({head:()=>({meta:[{title:'Choose a new password — UpCreator'},{name:'description',content:'Securely choose a new password for your UpCreator account.'},{property:'og:title',content:'Choose a new password — UpCreator'},{property:'og:description',content:'Securely choose a new password for your UpCreator account.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]}),component:ResetPassword});
+function ResetPassword(){const {t}=useI18n();const [valid,setValid]=useState(false),[password,setPassword]=useState(''),[error,setError]=useState(''),[done,setDone]=useState(false),[busy,setBusy]=useState(false);
+useEffect(()=>{const recovery=window.location.hash.includes('type=recovery');if(recovery)void supabase.auth.getUser().then(({data})=>setValid(Boolean(data.user)));const {data}=supabase.auth.onAuthStateChange(event=>{if(event==='PASSWORD_RECOVERY')setValid(true);});return()=>data.subscription.unsubscribe();},[]);
+return <AuthShell title="Choose a new password" subtitle="Secure your UpCreator account.">{done?<p className="text-success">{t('Password updated')}</p>:valid?<form className="space-y-4" onSubmit={async e=>{e.preventDefault();setBusy(true);const result=await supabase.auth.updateUser({password});if(result.error)setError(result.error.message);else setDone(true);setBusy(false);}}><Field label="New password"><input required minLength={8} type="password" className={inputCls} value={password} onChange={e=>setPassword(e.target.value)}/></Field>{error&&<p role="alert" className="text-destructive">{error}</p>}<Button disabled={busy}>{t('Update password')}</Button></form>:<p className="text-sm text-muted-foreground">{t('Open the password reset link from your email.')}</p>}<Link to="/login" className="mt-5 block text-primary">{t('Log in')}</Link></AuthShell>;}
