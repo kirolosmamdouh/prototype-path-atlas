@@ -9,6 +9,7 @@ import { Avatar } from "@/components/uc/ui";
 import { canAccess, navItems, type AppPath } from "@/lib/nav";
 import { useApp } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { Onboarding } from '@/components/uc/Onboarding';
 
 export const Route = createFileRoute("/app")({
   head: () => ({ meta: [{ title: "Workspace — UpCreator" }, { name: "description", content: "Your UpCreator workspace for brand and creator collaborations." }, { property: "og:title", content: "Workspace — UpCreator" }, { property: "og:description", content: "Your UpCreator workspace for brand and creator collaborations." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }, { name: "robots", content: "noindex" }] }),
@@ -17,16 +18,18 @@ export const Route = createFileRoute("/app")({
 
 function AppLayout() {
   const { t, language } = useI18n();
-  const { ready, user, store, logout } = useApp();
+  const { ready, signedIn, user, store, logout, error, refresh,workspaces,workspaceId,selectWorkspace } = useApp();
   const nav = useNavigate();
   const { pathname } = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (ready && !user) nav({ to: "/login" });
-  }, [ready, user, nav]);
+    if (ready && !signedIn) nav({ to: "/login",replace:true });
+  }, [ready, signedIn, nav]);
   useEffect(() => setMenuOpen(false), [pathname]);
 
+  if (ready && error) return <div className="p-8"><p role="alert">{t('Unable to load your account.')}</p><Button onClick={()=>void refresh()}>{t('Try again')}</Button></div>;
+  if (ready && signedIn && !user) return <Onboarding />;
   if (!ready || !user) {
     return <div className="grid min-h-screen place-items-center text-muted-foreground">{t("Loading\u2026")}</div>;
   }
@@ -43,6 +46,7 @@ function AppLayout() {
       )}>
         <div className="px-2 py-3"><Logo inverted /></div>
         <div className="px-2 pt-3"><LanguageToggle /></div>
+        {user.role==='brand'&&<div className="mt-4"><label className="text-xs text-sidebar-foreground" htmlFor="workspace-switch">{t('Workspace')}</label><select id="workspace-switch" value={workspaceId??''} onChange={e=>selectWorkspace(e.target.value)} className="mt-1 w-full rounded-md border border-sidebar-border bg-sidebar p-2 text-sm text-sidebar-foreground">{workspaces.map(w=><option key={w.id} value={w.id}>{w.name}</option>)}</select><Link to="/app/workspaces" className="mt-2 block text-xs text-sidebar-foreground">{t('Manage workspaces')}</Link></div>}
         <nav className="mt-6 flex-1 space-y-1 overflow-y-auto">
           {items.map((it) => {
             const active = it.to === "/app" ? current === "/app" : current.startsWith(it.to);
@@ -63,7 +67,7 @@ function AppLayout() {
             <p className="truncate text-sm font-bold text-sidebar-accent-foreground">{user.name}</p>
             <p className="text-xs capitalize text-sidebar-foreground">{t(user.role)}</p>
           </div>
-          <Button variant="ghost" onClick={() => { logout(); nav({ to: "/" }); }} className="text-xs font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground" title={t("Log out")}>
+          <Button variant="ghost" onClick={async () => { await logout(); await nav({ to: "/login",replace:true }); }} className="text-xs font-semibold text-sidebar-foreground hover:text-sidebar-accent-foreground" title={t("Log out")}>
             ⎋
           </Button>
         </div>
@@ -94,5 +98,5 @@ function AppLayout() {
 }
 
 function isKnown(p: string): p is AppPath {
-  return ["/app/campaigns/new", "/app/manage", "/app/applications", "/app/ai-match", "/app/talent", "/app/earnings", "/app/billing"].includes(p);
+  return ["/app/workspaces", "/app/campaigns/new", "/app/manage", "/app/applications", "/app/ai-match", "/app/talent", "/app/earnings", "/app/billing"].includes(p);
 }

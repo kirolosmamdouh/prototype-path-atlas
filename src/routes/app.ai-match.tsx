@@ -66,7 +66,7 @@ function AiMatch() {
   const { t, language } = useI18n();
   const { fmt, currency } = useLocalizedFormat();
   const { store, user } = useApp();
-  const mine = store.campaigns.filter((c) => c.userId === user?.id && c.status !== "closed");
+  const mine = store.campaigns.filter((c) => c.status !== "closed");
   const [id, setId] = useState<number | null>(null);
   const [filters, setFilters] = useState<MatchFilters>(EMPTY_FILTERS);
   const [sort, setSort] = useState<MatchSort>("score");

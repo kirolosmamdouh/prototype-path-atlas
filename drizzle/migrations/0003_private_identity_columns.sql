@@ -1,0 +1,2 @@
+REVOKE SELECT ON public.profiles FROM authenticated; GRANT SELECT(id,name,company,niche,location,bio,platforms,rate,followers,verified) ON public.profiles TO authenticated;
+REVOKE SELECT ON public.user_roles FROM authenticated; GRANT SELECT(profile_id,role) ON public.user_roles TO authenticated;

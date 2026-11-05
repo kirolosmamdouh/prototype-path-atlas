@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793879073168,
+      "tag": "0000_marketplace_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793879263408,
+      "tag": "0001_private_files_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793879298698,
+      "tag": "0002_restrict_function_execution",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793879413866,
+      "tag": "0003_private_identity_columns",
+      "breakpoints": true
+    }
+  ]
+}

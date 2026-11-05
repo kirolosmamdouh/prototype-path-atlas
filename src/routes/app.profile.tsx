@@ -33,11 +33,11 @@ function ProfileForm({ user }: { user: User }) {
     setF((p) => ({ ...p, [k]: ["rate", "followers"].includes(k) ? (e.target.value === "" ? undefined : Number(e.target.value)) : e.target.value }));
   const togglePlat = (p: (typeof PLATFORMS)[number]) =>
     setF((x) => ({ ...x, platforms: x.platforms?.includes(p) ? x.platforms.filter((y) => y !== p) : [...(x.platforms ?? []), p] }));
-  const save = (e: React.FormEvent) => {
+  const save = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!f.name.trim()) return;
-    update((s) => ({ users: s.users.map((u) => (u.id === user.id ? { ...f, name: f.name.trim() } : u)) }));
-    toast.success(t("Saved"));
+    const result=await update((s) => ({ users: s.users.map((u) => (u.id === user.id ? { ...f, name: f.name.trim() } : u)) }));
+    if(result.ok)toast.success(t("Saved"));
   };
   const js = isCreator ? jobSuccess(user.id, store) : null;
   const badges = isCreator ? creatorBadges(user, store) : brandBadges(user, store);

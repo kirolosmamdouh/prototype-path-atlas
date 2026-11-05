@@ -37,7 +37,7 @@ function Dashboard() {
 function BrandDashboard({ user, store }: { user: User; store: Store }) {
   const { t, language } = useI18n();
   const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
-  const mine = store.campaigns.filter((c) => c.userId === user.id);
+  const mine = store.campaigns;
   const apps = store.applications.filter((a) => mine.some((c) => c.id === a.campaignId));
   const pending = apps.filter((a) => a.status === "pending");
   const spend = apps.filter((a) => a.status === "accepted").reduce((s, a) => s + a.rate, 0);

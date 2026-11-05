@@ -4,16 +4,17 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: Role;
-  company?: string;
-  niche?: string;
-  location?: string;
-  bio?: string;
+  company?: string | undefined;
+  niche?: string | undefined;
+  location?: string | undefined;
+  bio?: string | undefined;
   platforms?: ("TikTok" | "Instagram" | "YouTube")[];
-  rate?: number;
-  followers?: number;
+  rate?: number | undefined;
+  followers?: number | undefined;
   verified?: boolean;
+  authId?: string;
 }
 
 export type CampaignStatus = "draft" | "open" | "in_progress" | "closed";
@@ -30,6 +31,8 @@ export interface Campaign {
   deadline: string;
   status: CampaignStatus;
   createdAt: string;
+  workspaceId?: string;
+  clientBrandId?: string | undefined;
 }
 
 export type ApplicationStatus = "pending" | "accepted" | "rejected";

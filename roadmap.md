@@ -15,7 +15,7 @@
 - [x] Working Profile and Settings pages; dashboard profile-completion prompt.
 
 # UpCreator 2.0 phased upgrade
-- [ ] Prepare and approve a phased upgrade plan based on the uploaded brief.
+- [x] Prepare and approve a phased upgrade plan based on the uploaded brief.
 - [ ] Establish real accounts, shared data, and agency workspaces.
 - [ ] Upgrade public discovery, creator profiles, portfolios, and packages.
 - [ ] Complete campaigns, messaging, offers, and order delivery.

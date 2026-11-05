@@ -1,0 +1,3 @@
+CREATE POLICY collaboration_files_read ON storage.objects FOR SELECT TO authenticated USING(bucket_id='collaboration-files' AND (storage.foldername(name))[1]=auth.uid()::text);
+CREATE POLICY collaboration_files_upload ON storage.objects FOR INSERT TO authenticated WITH CHECK(bucket_id='collaboration-files' AND (storage.foldername(name))[1]=auth.uid()::text);
+CREATE POLICY collaboration_files_delete ON storage.objects FOR DELETE TO authenticated USING(bucket_id='collaboration-files' AND (storage.foldername(name))[1]=auth.uid()::text);

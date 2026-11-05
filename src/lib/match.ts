@@ -117,8 +117,8 @@ export function rateCeiling(results: MatchResult[], budget: number): number {
 }
 
 /** Brand overview: each creator's best score across the brand's live (non-closed) campaigns, highest first. */
-export function personalizedCreators(brandId: number, store: Store, limit = 8): (MatchResult & { campaign: Campaign })[] {
-  const live = store.campaigns.filter((c) => c.userId === brandId && c.status !== "closed");
+export function personalizedCreators(brandId: number, store: Store, limit = 8, workspaceScoped = false): (MatchResult & { campaign: Campaign })[] {
+  const live = store.campaigns.filter((c) => (workspaceScoped || c.userId === brandId) && c.status !== "closed");
   if (!live.length) return [];
   const best = new Map<number, MatchResult & { campaign: Campaign }>();
   for (const c of live) for (const r of matchCreators(c, store)) {
@@ -131,8 +131,8 @@ export function personalizedCreators(brandId: number, store: Store, limit = 8): 
 export interface Collaborator { creator: User; jobs: number; lastCampaign: Campaign; lastAt: string }
 
 /** Creators whose proposals this brand accepted, most recent collaboration first. */
-export function pastCollaborators(brandId: number, store: Store): Collaborator[] {
-  const mine = new Map(store.campaigns.filter((c) => c.userId === brandId).map((c) => [c.id, c]));
+export function pastCollaborators(brandId: number, store: Store, workspaceScoped = false): Collaborator[] {
+  const mine = new Map(store.campaigns.filter((c) => workspaceScoped || c.userId === brandId).map((c) => [c.id, c]));
   const out = new Map<number, Collaborator>();
   for (const a of store.applications) {
     const camp = mine.get(a.campaignId);

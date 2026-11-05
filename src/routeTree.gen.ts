@@ -14,6 +14,7 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppAiMatchRouteImport } from './routes/app.ai-match'
 import { Route as AppApplicationsRouteImport } from './routes/app.applications'
@@ -25,6 +26,7 @@ import { Route as AppNotificationsRouteImport } from './routes/app.notifications
 import { Route as AppProfileRouteImport } from './routes/app.profile'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppTalentRouteImport } from './routes/app.talent'
+import { Route as AppWorkspacesRouteImport } from './routes/app.workspaces'
 import { Route as AppCampaignsIndexRouteImport } from './routes/app.campaigns.index'
 import { Route as AppCampaignsIdRouteImport } from './routes/app.campaigns.$id'
 import { Route as AppCampaignsNewRouteImport } from './routes/app.campaigns.new'
@@ -53,6 +55,11 @@ const LoginRoute = LoginRouteImport.update({
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppIndexRoute = AppIndexRouteImport.update({
@@ -110,6 +117,11 @@ const AppTalentRoute = AppTalentRouteImport.update({
   path: '/talent',
   getParentRoute: () => AppRoute,
 } as any)
+const AppWorkspacesRoute = AppWorkspacesRouteImport.update({
+  id: '/workspaces',
+  path: '/workspaces',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
   id: '/campaigns/',
   path: '/campaigns/',
@@ -137,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/app/ai-match': typeof AppAiMatchRoute
   '/app/applications': typeof AppApplicationsRoute
   '/app/billing': typeof AppBillingRoute
@@ -147,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/app/profile': typeof AppProfileRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/talent': typeof AppTalentRoute
+  '/app/workspaces': typeof AppWorkspacesRoute
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -158,6 +172,7 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/app/ai-match': typeof AppAiMatchRoute
   '/app/applications': typeof AppApplicationsRoute
   '/app/billing': typeof AppBillingRoute
@@ -168,6 +183,7 @@ export interface FileRoutesByTo {
   '/app/profile': typeof AppProfileRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/talent': typeof AppTalentRoute
+  '/app/workspaces': typeof AppWorkspacesRoute
   '/app': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -181,6 +197,7 @@ export interface FileRoutesById {
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/app/ai-match': typeof AppAiMatchRoute
   '/app/applications': typeof AppApplicationsRoute
   '/app/billing': typeof AppBillingRoute
@@ -191,6 +208,7 @@ export interface FileRoutesById {
   '/app/profile': typeof AppProfileRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/talent': typeof AppTalentRoute
+  '/app/workspaces': typeof AppWorkspacesRoute
   '/app/': typeof AppIndexRoute
   '/app/campaigns/$id': typeof AppCampaignsIdRoute
   '/app/campaigns/new': typeof AppCampaignsNewRoute
@@ -205,6 +223,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/app/ai-match'
     | '/app/applications'
     | '/app/billing'
@@ -215,6 +234,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/talent'
+    | '/app/workspaces'
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -226,6 +246,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/app/ai-match'
     | '/app/applications'
     | '/app/billing'
@@ -236,6 +257,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/talent'
+    | '/app/workspaces'
     | '/app'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -248,6 +270,7 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/register'
+    | '/reset-password'
     | '/app/ai-match'
     | '/app/applications'
     | '/app/billing'
@@ -258,6 +281,7 @@ export interface FileRouteTypes {
     | '/app/profile'
     | '/app/settings'
     | '/app/talent'
+    | '/app/workspaces'
     | '/app/'
     | '/app/campaigns/$id'
     | '/app/campaigns/new'
@@ -271,6 +295,7 @@ export interface RootRouteChildren {
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -308,6 +333,13 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/': {
@@ -387,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppTalentRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/workspaces': {
+      id: '/app/workspaces'
+      path: '/workspaces'
+      fullPath: '/app/workspaces'
+      preLoaderRoute: typeof AppWorkspacesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/campaigns/': {
       id: '/app/campaigns/'
       path: '/campaigns'
@@ -429,6 +468,7 @@ interface AppRouteChildren {
   AppProfileRoute: typeof AppProfileRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppTalentRoute: typeof AppTalentRoute
+  AppWorkspacesRoute: typeof AppWorkspacesRoute
   AppIndexRoute: typeof AppIndexRoute
   AppCampaignsIdRoute: typeof AppCampaignsIdRoute
   AppCampaignsNewRoute: typeof AppCampaignsNewRoute
@@ -447,6 +487,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppProfileRoute: AppProfileRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppTalentRoute: AppTalentRoute,
+  AppWorkspacesRoute: AppWorkspacesRoute,
   AppIndexRoute: AppIndexRoute,
   AppCampaignsIdRoute: AppCampaignsIdRoute,
   AppCampaignsNewRoute: AppCampaignsNewRoute,
@@ -462,6 +503,7 @@ const rootRouteChildren: RootRouteChildren = {
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

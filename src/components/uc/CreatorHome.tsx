@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Heart, MapPin, Rocket, Search, Sparkles, Timer, X } from "lucide-react";
 import { Avatar, VerifiedBadge } from "@/components/uc/ui";
@@ -6,9 +6,9 @@ import { useI18n, useLocalizedFormat } from "@/lib/i18n";
 import { profileCompletion } from "@/lib/profile";
 import { cn } from "@/lib/utils";
 import type { Campaign, Store, User } from "@/lib/types";
+import { useApp } from '@/lib/store';
 
 type Tab = "best" | "recent" | "saved";
-const SAVED_KEY = "uc-saved-campaigns";
 
 /** Upwork-style "find work" home for creators: promo, job search, tabbed feed and profile sidebar. */
 export function CreatorHome({ user, store }: { user: User; store: Store }) {
@@ -19,15 +19,9 @@ export function CreatorHome({ user, store }: { user: User; store: Store }) {
   const [tab, setTab] = useState<Tab>("best");
   const [q, setQ] = useState("");
   const [promo, setPromo] = useState(true);
-  const [saved, setSaved] = useState<number[]>([]);
+  const {saved,toggleSave}=useApp();
   const [toggles, setToggles] = useState({ available: true, open: false, boost: false });
 
-  useEffect(() => { try { setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) ?? "[]")); } catch { /* ignore */ } }, []);
-  const toggleSave = (id: number) => setSaved((s) => {
-    const next = s.includes(id) ? s.filter((x) => x !== id) : [...s, id];
-    localStorage.setItem(SAVED_KEY, JSON.stringify(next));
-    return next;
-  });
 
   const applied = new Set(store.applications.filter((a) => a.creatorId === user.id).map((a) => a.campaignId));
   const pct = profileCompletion(user);
