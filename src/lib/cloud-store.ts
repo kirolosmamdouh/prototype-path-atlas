@@ -7,8 +7,9 @@ export type ClientBrand = { id: string; workspace_id: string; name: string };
 export function check(error: { message: string } | null) { if (error) throw new Error(error.message); }
 
 export async function loadMarketplace(email: string, authId: string) {
+  const identity=await supabase.rpc('my_profile_id');check(identity.error);
   const [p,r,c,a,m,n,w,b,s] = await Promise.all([
-    supabase.from('profiles').select('*'), supabase.from('user_roles').select('*'),
+    supabase.from('profiles').select('id,name,company,niche,location,bio,platforms,rate,followers,verified'), supabase.from('user_roles').select('profile_id,role'),
     supabase.from('campaigns').select('*'), supabase.from('applications').select('*'),
     supabase.from('messages').select('*'), supabase.from('notifications').select('*'),
     supabase.from('workspaces').select('*'), supabase.from('client_brands').select('*'),
@@ -18,11 +19,11 @@ export async function loadMarketplace(email: string, authId: string) {
   const users: User[] = (p.data ?? []).flatMap(x => {
     const role = r.data?.find(y => y.profile_id === x.id)?.role;
     if (role !== 'brand' && role !== 'creator') return [];
-    return [{ id:x.id, authId:x.auth_id, name:x.name, role, email:x.auth_id===authId?email:'', company:x.company??undefined, niche:x.niche??undefined, location:x.location??undefined, bio:x.bio??undefined, platforms:x.platforms.filter((v): v is 'TikTok'|'Instagram'|'YouTube' => ['TikTok','Instagram','YouTube'].includes(v)), rate:x.rate??undefined, followers:x.followers??undefined, verified:x.verified }];
+    return [{ id:x.id, ...(x.id===identity.data?{authId}:{}), name:x.name, role, email:x.id===identity.data?email:'', company:x.company??undefined, niche:x.niche??undefined, location:x.location??undefined, bio:x.bio??undefined, platforms:x.platforms.filter((v): v is 'TikTok'|'Instagram'|'YouTube' => ['TikTok','Instagram','YouTube'].includes(v)), rate:x.rate??undefined, followers:x.followers??undefined, verified:x.verified }];
   });
   const campaigns: Campaign[] = (c.data ?? []).map(x => ({ id:x.id,userId:x.owner_id,workspaceId:x.workspace_id,clientBrandId:x.client_brand_id??undefined,title:x.title,description:x.description,niche:x.niche,platform:x.platform as Campaign['platform'],budget:x.budget,deliverables:x.deliverables,deadline:x.deadline,status:x.status as Campaign['status'],createdAt:x.created_at }));
   const store: Store = { users,campaigns, applications:(a.data??[]).map(x=>({id:x.id,campaignId:x.campaign_id,creatorId:x.creator_id,pitch:x.pitch,rate:x.rate,status:x.status as Store['applications'][number]['status'],createdAt:x.created_at})), messages:(m.data??[]).map(x=>({id:x.id,senderId:x.sender_id,receiverId:x.receiver_id,body:x.body,isRead:x.is_read,createdAt:x.created_at})), notifications:(n.data??[]).map(x=>({id:x.id,userId:x.user_id,title:x.title,body:x.body,read:x.read,createdAt:x.created_at})) };
-  return { store, workspaces:w.data??[], clients:b.data??[], saved:(s.data??[]).map(x=>x.campaign_id), profile:p.data?.find(x=>x.auth_id===authId) };
+  return { store, workspaces:w.data??[], clients:b.data??[], saved:(s.data??[]).map(x=>x.campaign_id) };
 }
 
 export async function persistChanges(previous: Store, patch: Partial<Store>, workspaceId: string | null) {
