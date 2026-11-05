@@ -8,6 +8,13 @@
       "when": 1793879073168,
       "tag": "0000_marketplace_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793879263408,
+      "tag": "0001_private_files_access",
+      "breakpoints": true
     }
   ]
 }
