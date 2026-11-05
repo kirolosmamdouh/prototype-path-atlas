@@ -16,7 +16,8 @@
 
 # UpCreator 2.0 phased upgrade
 - [x] Prepare and approve a phased upgrade plan based on the uploaded brief.
-- [ ] Establish real accounts, shared data, and agency workspaces.
+- [x] Establish real accounts, shared data, and agency workspaces; verified shared campaigns, saves, workspace/client persistence, and cross-account access rules.
+- [ ] Finish Phase 1 verification: confirmation-email delivery, recovery-link completion, social sign-in, and agency member collaboration through the UI remain unverified.
 - [ ] Upgrade public discovery, creator profiles, portfolios, and packages.
 - [ ] Complete campaigns, messaging, offers, and order delivery.
 - [ ] Add payments and payouts after eligibility and business rules are confirmed.
