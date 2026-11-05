@@ -4,7 +4,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
-  password: string;
+  password?: string;
   role: Role;
   company?: string;
   niche?: string;
@@ -14,6 +14,7 @@ export interface User {
   rate?: number;
   followers?: number;
   verified?: boolean;
+  authId?: string;
 }
 
 export type CampaignStatus = "draft" | "open" | "in_progress" | "closed";
@@ -30,6 +31,8 @@ export interface Campaign {
   deadline: string;
   status: CampaignStatus;
   createdAt: string;
+  workspaceId?: string;
+  clientBrandId?: string;
 }
 
 export type ApplicationStatus = "pending" | "accepted" | "rejected";
