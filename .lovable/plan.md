@@ -11,6 +11,8 @@ The app already has role-specific homes, local demo sign-in, campaigns and appli
 ## Delivery approach
 Deliver one phase at a time, with a usable preview and acceptance checks before starting the next. Approval of this plan starts **Phase 1**, not all phases simultaneously. No live charging or payouts will be enabled without separate confirmation.
 
+Reference research supports focused phone/video storytelling and scannable creator details followed by clear collaboration stages. The current references’ live rendering and interactions were not visually verified; their layouts will not be copied.
+
 ### Phase 1 — real accounts and shared workspaces
 - Enable Lovable Cloud for real user accounts, shared records, and uploaded files.
 - Replace demo password storage with secure sign-in, account recovery, and session handling; do not import plaintext demo passwords.
