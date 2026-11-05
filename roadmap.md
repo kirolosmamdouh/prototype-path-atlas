@@ -13,3 +13,11 @@
 # Profiles, settings & badge filters
 - [x] Filter creator search by Verified, Top Rated and Job Success; show badge criteria.
 - [x] Working Profile and Settings pages; dashboard profile-completion prompt.
+
+# UpCreator 2.0 phased upgrade
+- [ ] Prepare and approve a phased upgrade plan based on the uploaded brief.
+- [ ] Establish real accounts, shared data, and agency workspaces.
+- [ ] Upgrade public discovery, creator profiles, portfolios, and packages.
+- [ ] Complete campaigns, messaging, offers, and order delivery.
+- [ ] Add payments and payouts after eligibility and business rules are confirmed.
+- [ ] Add conversational AI, video discovery, and launch validation.
