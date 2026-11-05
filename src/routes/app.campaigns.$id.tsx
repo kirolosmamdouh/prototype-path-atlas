@@ -15,7 +15,7 @@ function CampaignDetail() {
   const { t, language } = useI18n();
   const { ago, fmt, fmtDate, currency } = useLocalizedFormat();
   const { id } = Route.useParams();
-  const { store, user, update } = useApp();
+  const { store, user, update,workspaces } = useApp();
   const c = store.campaigns.find((x) => x.id === Number(id));
   const [pitch, setPitch] = useState("");
   const [rate, setRate] = useState("");
@@ -25,7 +25,7 @@ function CampaignDetail() {
   const brand = store.users.find((u) => u.id === c.userId);
   const apps = store.applications.filter((a) => a.campaignId === c.id);
   const mine = apps.find((a) => a.creatorId === user.id);
-  const isOwner = c.userId === user.id;
+  const isOwner = user.role==='brand' && (c.userId === user.id || workspaces.some(w=>w.id===c.workspaceId));
 
   const apply = (e: FormEvent) => {
     e.preventDefault();

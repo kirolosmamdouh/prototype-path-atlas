@@ -98,5 +98,5 @@ function AppLayout() {
 }
 
 function isKnown(p: string): p is AppPath {
-  return ["/app/campaigns/new", "/app/manage", "/app/applications", "/app/ai-match", "/app/talent", "/app/earnings", "/app/billing"].includes(p);
+  return ["/app/workspaces", "/app/campaigns/new", "/app/manage", "/app/applications", "/app/ai-match", "/app/talent", "/app/earnings", "/app/billing"].includes(p);
 }

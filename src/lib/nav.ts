@@ -13,8 +13,8 @@ export type AppPath =
   | "/app/messages"
   | "/app/notifications"
   | "/app/settings"
-  | "/app/profile";
-// Workspace management uses the same brand-only permission as campaign management.
+  | "/app/profile"
+  | "/app/workspaces";
 
 export interface NavItem {
   to: AppPath;
@@ -67,6 +67,7 @@ export const ROUTE_ACCESS: Record<AppPath, Role | "any"> = {
   "/app/ai-match": "brand",
   "/app/talent": "brand",
   "/app/billing": "brand",
+  "/app/workspaces": "brand",
   "/app/applications": "creator",
   "/app/earnings": "creator",
 };
